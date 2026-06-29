@@ -7,6 +7,8 @@
 
   <ItemGroup>
     <PackageReference Include="Mediarq.Core" />
+    <PackageReference Include="Mediarq.FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
     <PackageReference Include="Swashbuckle.AspNetCore" />
   </ItemGroup>
@@ -15,6 +17,9 @@
     <ProjectReference Include="..\..\BuildingBlocks\LexManager.SharedKernel\LexManager.SharedKernel.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\LexManager.Application.Abstractions\LexManager.Application.Abstractions.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\LexManager.Infrastructure\LexManager.Infrastructure.csproj" />
+
+    <!-- Modules (composition root). Adding a module = a reference here + a line in ModuleRegistry. -->
+    <ProjectReference Include="..\..\Modules\Identity\LexManager.Modules.Identity.Infrastructure\LexManager.Modules.Identity.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

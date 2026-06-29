@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>LexManager.Modules.Identity.UnitTests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NSubstitute" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Modules\Identity\LexManager.Modules.Identity.Domain\LexManager.Modules.Identity.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Identity\LexManager.Modules.Identity.Application\LexManager.Modules.Identity.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Identity\LexManager.Modules.Identity.Contracts\LexManager.Modules.Identity.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

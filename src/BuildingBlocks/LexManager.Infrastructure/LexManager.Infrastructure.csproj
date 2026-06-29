@@ -10,7 +10,6 @@
 
   <ItemGroup>
     <PackageReference Include="Mediarq.Core" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" />
   </ItemGroup>
 
   <ItemGroup>

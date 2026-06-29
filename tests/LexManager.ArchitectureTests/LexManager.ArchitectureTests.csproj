@@ -12,6 +12,10 @@
     <ProjectReference Include="..\..\src\BuildingBlocks\LexManager.SharedKernel\LexManager.SharedKernel.csproj" />
     <ProjectReference Include="..\..\src\BuildingBlocks\LexManager.Application.Abstractions\LexManager.Application.Abstractions.csproj" />
     <ProjectReference Include="..\..\src\BuildingBlocks\LexManager.Infrastructure\LexManager.Infrastructure.csproj" />
+
+    <ProjectReference Include="..\..\src\Modules\Identity\LexManager.Modules.Identity.Domain\LexManager.Modules.Identity.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Identity\LexManager.Modules.Identity.Application\LexManager.Modules.Identity.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Identity\LexManager.Modules.Identity.Infrastructure\LexManager.Modules.Identity.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

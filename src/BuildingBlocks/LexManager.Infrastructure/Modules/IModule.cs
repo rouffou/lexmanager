@@ -1,3 +1,4 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +13,12 @@ public interface IModule
 {
     /// <summary>Stable module name, used for logging, route prefixes and diagnostics.</summary>
     string Name { get; }
+
+    /// <summary>
+    /// Assemblies Mediarq must scan for this module's handlers, validators and event handlers
+    /// (typically the module's Application assembly).
+    /// </summary>
+    IEnumerable<Assembly> Assemblies { get; }
 
     /// <summary>Registers the module's services, DbContext and integrations.</summary>
     IServiceCollection RegisterModule(IServiceCollection services, IConfiguration configuration);

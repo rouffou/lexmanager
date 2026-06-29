@@ -19,6 +19,7 @@
     <PackageVersion Include="Mediarq.Caching" Version="1.0.0" />
     <!-- FluentValidation >=12 is commercially licensed (free for OSS); used via Mediarq.FluentValidation. -->
     <PackageVersion Include="FluentValidation" Version="12.1.1" />
+    <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
   </ItemGroup>
 
   <ItemGroup Label="Persistence">

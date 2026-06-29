@@ -1,0 +1,21 @@
+# Normalize line endings: LF in the repo, native on checkout.
+* text=auto
+
+*.cs       text diff=csharp
+*.csproj   text
+*.props    text
+*.targets  text
+*.slnx     text
+*.json     text
+*.yml      text
+*.yaml     text
+*.md       text
+*.ts       text
+*.html     text
+*.scss     text
+*.sh       text eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary
+*.pdf binary

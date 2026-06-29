@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>LexManager.Modules.Identity.Application</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mediarq.Core" />
+    <PackageReference Include="FluentValidation" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LexManager.Modules.Identity.Domain\LexManager.Modules.Identity.Domain.csproj" />
+    <ProjectReference Include="..\LexManager.Modules.Identity.Contracts\LexManager.Modules.Identity.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\LexManager.Application.Abstractions\LexManager.Application.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\LexManager.Infrastructure\LexManager.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>
