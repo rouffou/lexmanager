@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Bootstrapper/">
+    <Project Path="src/Bootstrapper/LexManager.Api/LexManager.Api.csproj" />
+  </Folder>
+  <Folder Name="/src/BuildingBlocks/">
+    <Project Path="src/BuildingBlocks/LexManager.Application.Abstractions/LexManager.Application.Abstractions.csproj" />
+    <Project Path="src/BuildingBlocks/LexManager.Infrastructure/LexManager.Infrastructure.csproj" />
+    <Project Path="src/BuildingBlocks/LexManager.SharedKernel/LexManager.SharedKernel.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LexManager.ArchitectureTests/LexManager.ArchitectureTests.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,6 @@
+@LexManager.Api_HostAddress = http://localhost:5242
+
+GET {{LexManager.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

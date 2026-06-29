@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>LexManager.ArchitectureTests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NetArchTest.Rules" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\BuildingBlocks\LexManager.SharedKernel\LexManager.SharedKernel.csproj" />
+    <ProjectReference Include="..\..\src\BuildingBlocks\LexManager.Application.Abstractions\LexManager.Application.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\BuildingBlocks\LexManager.Infrastructure\LexManager.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

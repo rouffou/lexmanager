@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+env:
+  DOTNET_VERSION: "10.0.x"
+  MIN_COVERAGE: "90"
+
+jobs:
+  backend:
+    name: Backend (build, test, coverage ≥ 90%)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore LexManager.slnx
+
+      - name: Build
+        run: dotnet build LexManager.slnx --no-restore --configuration Release
+
+      # Architecture + unit + integration tests (integration tests use Testcontainers,
+      # which run against the Docker engine available on GitHub-hosted runners).
+      - name: Test with coverage
+        run: >
+          dotnet test LexManager.slnx --no-build --configuration Release
+          --collect:"XPlat Code Coverage"
+          --results-directory ./coverage
+          --logger "trx;LogFileName=test-results.trx"
+
+      - name: Install ReportGenerator
+        run: dotnet tool install --global dotnet-reportgenerator-globaltool
+
+      - name: Merge coverage & enforce threshold
+        run: |
+          reportgenerator \
+            -reports:"./coverage/**/coverage.cobertura.xml" \
+            -targetdir:"./coverage/report" \
+            -reporttypes:"Cobertura;TextSummary"
+          cat ./coverage/report/Summary.txt
+          LINE_COVERAGE=$(grep -oP 'Line coverage:\s*\K[0-9.]+' ./coverage/report/Summary.txt | head -1)
+          echo "Line coverage: ${LINE_COVERAGE}% (minimum ${MIN_COVERAGE}%)"
+          awk -v c="${LINE_COVERAGE}" -v min="${MIN_COVERAGE}" 'BEGIN { exit (c+0 < min+0) }' \
+            || { echo "::error::Coverage ${LINE_COVERAGE}% is below the ${MIN_COVERAGE}% threshold"; exit 1; }
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: ./coverage/report
+
+  frontend:
+    name: Frontend (lint, build, test)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Skip if frontend not yet scaffolded
+        id: guard
+        run: |
+          if [ -f package.json ]; then echo "exists=true" >> "$GITHUB_OUTPUT"; else echo "exists=false" >> "$GITHUB_OUTPUT"; fi
+
+      - name: Setup Node
+        if: steps.guard.outputs.exists == 'true'
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install
+        if: steps.guard.outputs.exists == 'true'
+        run: npm ci
+
+      - name: Lint
+        if: steps.guard.outputs.exists == 'true'
+        run: npm run lint --if-present
+
+      - name: Test
+        if: steps.guard.outputs.exists == 'true'
+        run: npm run test:ci --if-present
+
+      - name: Build
+        if: steps.guard.outputs.exists == 'true'
+        run: npm run build
