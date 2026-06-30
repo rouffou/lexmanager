@@ -1,4 +1,5 @@
 using LexManager.Infrastructure.Modules;
+using LexManager.Modules.CaseManagement.Infrastructure;
 using LexManager.Modules.Identity.Infrastructure;
 
 namespace LexManager.Api.Modules;
@@ -13,6 +14,6 @@ public static class ModuleRegistry
     public static IReadOnlyList<IModule> Modules { get; } =
     [
         new IdentityModule(),
-        // new CaseManagementModule(),
+        new CaseManagementModule(),
     ];
 }

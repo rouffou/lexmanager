@@ -1,4 +1,4 @@
-using LexManager.Application.Abstractions.Persistence;
+using LexManager.Modules.Identity.Application.Abstractions;
 using LexManager.Modules.Identity.Domain.Clients;
 using Mediarq.Core.Common.Requests.Command;
 using Mediarq.Core.Common.Results;
@@ -8,7 +8,7 @@ namespace LexManager.Modules.Identity.Application.Features.CreateClient;
 public sealed class CreateClientCommandHandler(
     IClientRepository clientRepository,
     IConflictOfInterestChecker conflictChecker,
-    IUnitOfWork unitOfWork) : ICommandHandler<CreateClientCommand, Result<Guid>>
+    IIdentityUnitOfWork unitOfWork) : ICommandHandler<CreateClientCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(CreateClientCommand request, CancellationToken cancellationToken = default)
     {

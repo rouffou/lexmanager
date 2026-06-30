@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>LexManager.Modules.CaseManagement.UnitTests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NSubstitute" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Modules\CaseManagement\LexManager.Modules.CaseManagement.Domain\LexManager.Modules.CaseManagement.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\CaseManagement\LexManager.Modules.CaseManagement.Application\LexManager.Modules.CaseManagement.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\CaseManagement\LexManager.Modules.CaseManagement.Contracts\LexManager.Modules.CaseManagement.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

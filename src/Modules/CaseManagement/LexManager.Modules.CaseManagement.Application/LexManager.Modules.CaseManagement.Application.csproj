@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>LexManager.Modules.CaseManagement.Application</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mediarq.Core" />
+    <PackageReference Include="Mediarq.UnitOfWork" />
+    <PackageReference Include="FluentValidation" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LexManager.Modules.CaseManagement.Domain\LexManager.Modules.CaseManagement.Domain.csproj" />
+    <ProjectReference Include="..\LexManager.Modules.CaseManagement.Contracts\LexManager.Modules.CaseManagement.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\LexManager.Application.Abstractions\LexManager.Application.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\LexManager.Infrastructure\LexManager.Infrastructure.csproj" />
+
+    <!-- Cross-module communication via public contract only (SRD §3.2): verify the client exists. -->
+    <ProjectReference Include="..\..\Identity\LexManager.Modules.Identity.Contracts\LexManager.Modules.Identity.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

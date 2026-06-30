@@ -19,6 +19,11 @@ Conventions for working in this repo. Read the two spec files at the root before
   - DI: `services.AddMediarq(isHttp: true, assemblies)` + `AddMediarqRequestLogging()` /
     `AddMediarqPerformanceTracking()`. Validation via `Mediarq.FluentValidation` (write FluentValidation
     validators; they run in the pipeline and short-circuit with a failed `Result`).
+  - Unit of work: `Mediarq.UnitOfWork.IUnitOfWork` (`Task<int> SaveChangesAsync(ct)`). Because each module
+    has its OWN DbContext, do NOT register the bare `IUnitOfWork` (the single-resolver `UnitOfWorkBehavior`
+    would commit the wrong context). Instead each module defines a marker `I<M>UnitOfWork : IUnitOfWork`
+    in its Application layer; the module's DbContext implements it; handlers depend on the marker and call
+    `SaveChangesAsync` explicitly. Domain events are published by the DbContext's `SaveChangesAsync` override.
 
 ## Architecture rules (enforced by tests/LexManager.ArchitectureTests with NetArchTest)
 - Per module: `LexManager.Modules.<M>.Domain | .Application | .Infrastructure | .Contracts`.

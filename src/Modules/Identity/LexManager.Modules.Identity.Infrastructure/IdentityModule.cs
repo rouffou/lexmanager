@@ -1,5 +1,4 @@
 using System.Reflection;
-using LexManager.Application.Abstractions.Persistence;
 using LexManager.Infrastructure.Endpoints;
 using LexManager.Infrastructure.Modules;
 using LexManager.Modules.Identity.Application;
@@ -37,7 +36,7 @@ public sealed class IdentityModule : IModule
             options.UseNpgsql(connectionString, npgsql =>
                 npgsql.MigrationsHistoryTable("__ef_migrations_history", IdentityDbContext.Schema)));
 
-        services.AddScoped<IUnitOfWork>(provider => provider.GetRequiredService<IdentityDbContext>());
+        services.AddScoped<IIdentityUnitOfWork>(provider => provider.GetRequiredService<IdentityDbContext>());
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<IClientReadRepository, ClientReadRepository>();
         services.AddScoped<IConflictOfInterestChecker, ConflictOfInterestChecker>();

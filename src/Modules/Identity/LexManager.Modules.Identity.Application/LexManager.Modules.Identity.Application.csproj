@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Mediarq.Core" />
+    <PackageReference Include="Mediarq.UnitOfWork" />
     <PackageReference Include="FluentValidation" />
   </ItemGroup>
 

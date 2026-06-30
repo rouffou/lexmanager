@@ -1,4 +1,4 @@
-using LexManager.Application.Abstractions.Persistence;
+using LexManager.Modules.Identity.Application.Abstractions;
 using LexManager.Modules.Identity.Domain.Clients;
 using LexManager.SharedKernel.Domain;
 using Mediarq.Core.Mediators;
@@ -11,7 +11,7 @@ namespace LexManager.Modules.Identity.Infrastructure.Persistence;
 /// module may read or write it (SRD §3.2). Publishes domain events after the transaction commits.
 /// </summary>
 public sealed class IdentityDbContext(DbContextOptions<IdentityDbContext> options, IPublisher publisher)
-    : DbContext(options), IUnitOfWork
+    : DbContext(options), IIdentityUnitOfWork
 {
     public const string Schema = "identity";
 

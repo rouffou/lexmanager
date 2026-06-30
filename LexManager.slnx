@@ -9,6 +9,12 @@
     <Project Path="src/BuildingBlocks/LexManager.SharedKernel/LexManager.SharedKernel.csproj" />
   </Folder>
   <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/CaseManagement/">
+    <Project Path="src/Modules/CaseManagement/LexManager.Modules.CaseManagement.Application/LexManager.Modules.CaseManagement.Application.csproj" />
+    <Project Path="src/Modules/CaseManagement/LexManager.Modules.CaseManagement.Contracts/LexManager.Modules.CaseManagement.Contracts.csproj" />
+    <Project Path="src/Modules/CaseManagement/LexManager.Modules.CaseManagement.Domain/LexManager.Modules.CaseManagement.Domain.csproj" />
+    <Project Path="src/Modules/CaseManagement/LexManager.Modules.CaseManagement.Infrastructure/LexManager.Modules.CaseManagement.Infrastructure.csproj" />
+  </Folder>
   <Folder Name="/src/Modules/Identity/">
     <Project Path="src/Modules/Identity/LexManager.Modules.Identity.Application/LexManager.Modules.Identity.Application.csproj" />
     <Project Path="src/Modules/Identity/LexManager.Modules.Identity.Contracts/LexManager.Modules.Identity.Contracts.csproj" />
@@ -17,6 +23,8 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/LexManager.ArchitectureTests/LexManager.ArchitectureTests.csproj" />
+    <Project Path="tests/LexManager.Modules.CaseManagement.IntegrationTests/LexManager.Modules.CaseManagement.IntegrationTests.csproj" />
+    <Project Path="tests/LexManager.Modules.CaseManagement.UnitTests/LexManager.Modules.CaseManagement.UnitTests.csproj" />
     <Project Path="tests/LexManager.Modules.Identity.IntegrationTests/LexManager.Modules.Identity.IntegrationTests.csproj" />
     <Project Path="tests/LexManager.Modules.Identity.UnitTests/LexManager.Modules.Identity.UnitTests.csproj" />
   </Folder>

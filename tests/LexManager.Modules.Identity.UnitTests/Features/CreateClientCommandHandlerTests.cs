@@ -1,4 +1,4 @@
-using LexManager.Application.Abstractions.Persistence;
+using LexManager.Modules.Identity.Application.Abstractions;
 using LexManager.Modules.Identity.Application.Features.CreateClient;
 using LexManager.Modules.Identity.Domain.Clients;
 using NSubstitute;
@@ -9,7 +9,7 @@ public class CreateClientCommandHandlerTests
 {
     private readonly IClientRepository _repository = Substitute.For<IClientRepository>();
     private readonly IConflictOfInterestChecker _conflictChecker = Substitute.For<IConflictOfInterestChecker>();
-    private readonly IUnitOfWork _unitOfWork = Substitute.For<IUnitOfWork>();
+    private readonly IIdentityUnitOfWork _unitOfWork = Substitute.For<IIdentityUnitOfWork>();
 
     private CreateClientCommandHandler CreateHandler() => new(_repository, _conflictChecker, _unitOfWork);
 
