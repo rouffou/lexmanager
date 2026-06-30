@@ -1,5 +1,6 @@
 using LexManager.Modules.Identity.Application.Abstractions;
 using LexManager.Modules.Identity.Domain.Clients;
+using LexManager.Modules.Identity.Domain.Compliance;
 using LexManager.SharedKernel.Domain;
 using Mediarq.Core.Mediators;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,8 @@ public sealed class IdentityDbContext(DbContextOptions<IdentityDbContext> option
 
     public DbSet<Client> Clients => Set<Client>();
 
+    public DbSet<ClientDueDiligence> DueDiligenceFiles => Set<ClientDueDiligence>();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.HasDefaultSchema(Schema);
@@ -26,8 +29,10 @@ public sealed class IdentityDbContext(DbContextOptions<IdentityDbContext> option
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        List<AggregateRoot<ClientId>> aggregates = ChangeTracker
-            .Entries<AggregateRoot<ClientId>>()
+        // Dispatch via the non-generic marker so every aggregate in this schema (Client +
+        // ClientDueDiligence, which have different id types) has its events published.
+        List<IHasDomainEvents> aggregates = ChangeTracker
+            .Entries<IHasDomainEvents>()
             .Select(entry => entry.Entity)
             .Where(aggregate => aggregate.DomainEvents.Count > 0)
             .ToList();
@@ -43,7 +48,7 @@ public sealed class IdentityDbContext(DbContextOptions<IdentityDbContext> option
             await publisher.Publish(domainEvent, cancellationToken);
         }
 
-        foreach (AggregateRoot<ClientId> aggregate in aggregates)
+        foreach (IHasDomainEvents aggregate in aggregates)
         {
             aggregate.ClearDomainEvents();
         }

@@ -5,6 +5,7 @@ using LexManager.Modules.Identity.Application;
 using LexManager.Modules.Identity.Application.Abstractions;
 using LexManager.Modules.Identity.Contracts;
 using LexManager.Modules.Identity.Domain.Clients;
+using LexManager.Modules.Identity.Domain.Compliance;
 using LexManager.Modules.Identity.Infrastructure.ConflictOfInterest;
 using LexManager.Modules.Identity.Infrastructure.Persistence;
 using LexManager.Modules.Identity.Infrastructure.PublicApi;
@@ -39,6 +40,8 @@ public sealed class IdentityModule : IModule
         services.AddScoped<IIdentityUnitOfWork>(provider => provider.GetRequiredService<IdentityDbContext>());
         services.AddScoped<IClientRepository, ClientRepository>();
         services.AddScoped<IClientReadRepository, ClientReadRepository>();
+        services.AddScoped<IClientDueDiligenceRepository, ClientDueDiligenceRepository>();
+        services.AddScoped<IDueDiligenceReadRepository, DueDiligenceReadRepository>();
         services.AddScoped<IConflictOfInterestChecker, ConflictOfInterestChecker>();
         services.AddScoped<IClientApi, ClientApi>();
 

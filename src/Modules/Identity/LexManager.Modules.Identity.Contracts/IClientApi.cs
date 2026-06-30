@@ -11,4 +11,10 @@ public interface IClientApi : IModuleApi
     Task<bool> ClientExistsAsync(Guid clientId, CancellationToken cancellationToken = default);
 
     Task<ClientSummaryResponse?> GetClientAsync(Guid clientId, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Whether the client has passed anti-money-laundering due diligence (LCB-FT) and the mandate
+    /// may be accepted — i.e. an approved due-diligence file exists (SRD V11 §30).
+    /// </summary>
+    Task<bool> IsClientClearedForMandateAsync(Guid clientId, CancellationToken cancellationToken = default);
 }

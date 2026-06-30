@@ -7,7 +7,9 @@ namespace LexManager.Modules.Identity.Infrastructure.PublicApi;
 /// Implementation of the Identity module's cross-module contract. Other modules resolve
 /// <see cref="IClientApi"/> from DI — they never reference Identity's entities or DbContext.
 /// </summary>
-internal sealed class ClientApi(IClientReadRepository readRepository) : IClientApi
+internal sealed class ClientApi(
+    IClientReadRepository readRepository,
+    IDueDiligenceReadRepository dueDiligenceReadRepository) : IClientApi
 {
     public async Task<bool> ClientExistsAsync(Guid clientId, CancellationToken cancellationToken = default) =>
         await readRepository.GetByIdAsync(clientId, cancellationToken) is not null;
@@ -20,4 +22,7 @@ internal sealed class ClientApi(IClientReadRepository readRepository) : IClientA
             ? null
             : new ClientSummaryResponse(client.Id, client.Type, client.DisplayName, client.Email, client.CreatedOnUtc);
     }
+
+    public Task<bool> IsClientClearedForMandateAsync(Guid clientId, CancellationToken cancellationToken = default) =>
+        dueDiligenceReadRepository.IsClientApprovedAsync(clientId, cancellationToken);
 }
