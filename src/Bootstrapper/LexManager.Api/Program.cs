@@ -1,9 +1,12 @@
 using System.Reflection;
 using FluentValidation;
 using LexManager.Api.Modules;
+using LexManager.Infrastructure.Audit;
 using LexManager.Infrastructure.Endpoints;
 using LexManager.Infrastructure.Exceptions;
 using LexManager.Infrastructure.Modules;
+using LexManager.Infrastructure.Retention;
+using LexManager.Infrastructure.Security;
 using Mediarq.Extensions;
 using Mediarq.FluentValidation;
 
@@ -41,6 +44,11 @@ foreach (Assembly assembly in applicationAssemblies)
 
 builder.Services.AddMediarqFluentValidation();
 
+// --- Cross-cutting: security (OIDC/JWT + RBAC), audit trail, RGPD retention worker ---
+builder.Services.AddLexManagerSecurity(builder.Configuration);
+builder.Services.AddLexManagerAudit();
+builder.Services.AddLexManagerRetention(builder.Configuration);
+
 // --- Module registration (isolated per module) --------------------------------
 foreach (IModule module in modules)
 {
@@ -60,8 +68,22 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapGet("/health", () => Results.Ok(new { status = "healthy" }))
    .WithName("HealthCheck")
+   .WithTags("Diagnostics");
+
+// Identity probe for the authenticated caller — demonstrates RBAC enforcement end-to-end.
+app.MapGet("/api/me", (ICurrentUser currentUser) => Results.Ok(new
+   {
+       userId = currentUser.UserId,
+       email = currentUser.Email,
+       permissions = currentUser.Permissions
+   }))
+   .RequireAuthorization()
+   .WithName("WhoAmI")
    .WithTags("Diagnostics");
 
 RouteGroupBuilder apiGroup = app.MapGroup("/api");

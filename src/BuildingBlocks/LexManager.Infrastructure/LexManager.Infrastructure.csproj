@@ -9,7 +9,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="LexManager.Infrastructure.UnitTests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Mediarq.Core" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
   </ItemGroup>
 
   <ItemGroup>

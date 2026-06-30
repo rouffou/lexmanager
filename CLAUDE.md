@@ -35,6 +35,17 @@ Conventions for working in this repo. Read the two spec files at the root before
   `src/Bootstrapper/LexManager.Api/Modules/ModuleRegistry.cs`. Endpoints implement `IEndpoint` (one per feature)
   and are discovered via `AddEndpointsFrom(assembly)` / `MapRegisteredEndpoints()`.
 
+## Cross-cutting (in `LexManager.Infrastructure` building block, wired in Program.cs)
+- **Security/RBAC**: `AddLexManagerSecurity(config)` — JWT bearer (OIDC `Authentication:Authority` or dev
+  `Authentication:SigningKey`), `ICurrentUser`, one authorization policy per `Permissions.*`. Protect an
+  endpoint with `.RequireAuthorization(Permissions.Xxx)`. JWT carries `permission` claims.
+- **Audit**: `AddLexManagerAudit()` registers `AuditBehavior` (Mediarq `IPipelineBehavior`, open generic) →
+  `IAuditSink` records action/user/outcome/elapsed for every command & query.
+- **RGPD retention**: `AddLexManagerRetention(config)` — `RetentionSweepService` (HostedService, gated by
+  `Retention:Enabled`, default off) publishes `RetentionSweepRequested` / `PaymentReminderSweepRequested`
+  notifications; modules react via `INotificationHandler` (e.g. Billing runs `ProcessOverdueCommand`).
+  `RetentionPolicy` holds the statutory durations (5y/10y/3y).
+
 ## Adding a feature (vertical slice)
 Create one folder under the module's `Application/Features/<FeatureName>/` containing:
 `<Feature>Command`/`Query` (record), `<Feature>Handler`, `<Feature>Validator` (FluentValidation),
