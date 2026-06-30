@@ -1,5 +1,6 @@
 using LexManager.Infrastructure.Modules;
 using LexManager.Modules.CaseManagement.Infrastructure;
+using LexManager.Modules.Documents.Infrastructure;
 using LexManager.Modules.Identity.Infrastructure;
 
 namespace LexManager.Api.Modules;
@@ -15,5 +16,6 @@ public static class ModuleRegistry
     [
         new IdentityModule(),
         new CaseManagementModule(),
+        new DocumentsModule(),
     ];
 }

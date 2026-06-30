@@ -20,6 +20,10 @@
     <ProjectReference Include="..\..\src\Modules\CaseManagement\LexManager.Modules.CaseManagement.Domain\LexManager.Modules.CaseManagement.Domain.csproj" />
     <ProjectReference Include="..\..\src\Modules\CaseManagement\LexManager.Modules.CaseManagement.Application\LexManager.Modules.CaseManagement.Application.csproj" />
     <ProjectReference Include="..\..\src\Modules\CaseManagement\LexManager.Modules.CaseManagement.Infrastructure\LexManager.Modules.CaseManagement.Infrastructure.csproj" />
+
+    <ProjectReference Include="..\..\src\Modules\Documents\LexManager.Modules.Documents.Domain\LexManager.Modules.Documents.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Documents\LexManager.Modules.Documents.Application\LexManager.Modules.Documents.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Documents\LexManager.Modules.Documents.Infrastructure\LexManager.Modules.Documents.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
