@@ -20,7 +20,7 @@ public sealed record CreateBillingDocumentCommand(
     Guid ClientId,
     BillingDocumentKind Kind,
     BillingMode Mode,
-    decimal TaxRatePercent = 20m,
+    decimal TaxRatePercent = 21m, // Belgian VAT on lawyers' services (SRD §5)
     string Currency = Money.DefaultCurrency) : ICommand<Result<Guid>>;
 
 public sealed class CreateBillingDocumentValidator : AbstractValidator<CreateBillingDocumentCommand>

@@ -33,8 +33,16 @@ RUN dotnet publish src/Bootstrapper/LexManager.Api/LexManager.Api.csproj \
 
 # ──────────────────────────────────────────────────────────────────────────────
 # Stage 3 — Runtime (lightweight ASP.NET)
+# Bundles Tesseract OCR (FR + NL) so the DMS can run full-text OCR locally and for
+# free — confidential documents never leave the container (SRD §3 Module 3, §7.2).
 # ──────────────────────────────────────────────────────────────────────────────
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS final
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        tesseract-ocr \
+        tesseract-ocr-fra \
+        tesseract-ocr-nld \
+    && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 ENV ASPNETCORE_HTTP_PORTS=8080
 EXPOSE 8080

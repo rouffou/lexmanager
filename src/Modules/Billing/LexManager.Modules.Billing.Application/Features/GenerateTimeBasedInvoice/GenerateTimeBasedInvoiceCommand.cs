@@ -25,7 +25,7 @@ public sealed record GenerateTimeBasedInvoiceCommand(
     Guid ClientId,
     decimal HourlyRate,
     DateTime DueDateUtc,
-    decimal TaxRatePercent = 20m) : ICommand<Result<Guid>>;
+    decimal TaxRatePercent = 21m) : ICommand<Result<Guid>>; // Belgian VAT (SRD §5)
 
 public sealed class GenerateTimeBasedInvoiceValidator : AbstractValidator<GenerateTimeBasedInvoiceCommand>
 {

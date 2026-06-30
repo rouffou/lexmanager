@@ -58,7 +58,7 @@ public class BillingIntegrationTests(BillingApiFactory factory)
         document!.Status.Should().Be("Issued");
         document.Mode.Should().Be("TimeBased");
         document.Subtotal.Should().Be(300m);
-        document.Total.Should().Be(360m);
+        document.Total.Should().Be(363m); // 21% Belgian VAT
     }
 
     private async Task<Guid> CreateDraftAsync()

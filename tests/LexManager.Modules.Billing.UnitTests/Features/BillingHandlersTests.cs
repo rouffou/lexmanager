@@ -87,7 +87,7 @@ public class BillingHandlersTests
         added!.Status.Should().Be(BillingStatus.Issued);
         added.Mode.Should().Be(BillingMode.TimeBased);
         added.Subtotal.Amount.Should().Be(300m); // 1.5h * 200
-        added.Total.Amount.Should().Be(360m);     // + 20% VAT
+        added.Total.Amount.Should().Be(363m);     // + 21% Belgian VAT
         await _unitOfWork.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
     }
 }
