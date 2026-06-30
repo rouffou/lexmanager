@@ -1,4 +1,5 @@
 using LexManager.Infrastructure.Modules;
+using LexManager.Modules.Billing.Infrastructure;
 using LexManager.Modules.Calendar.Infrastructure;
 using LexManager.Modules.CaseManagement.Infrastructure;
 using LexManager.Modules.Documents.Infrastructure;
@@ -19,5 +20,6 @@ public static class ModuleRegistry
         new CaseManagementModule(),
         new DocumentsModule(),
         new CalendarModule(),
+        new BillingModule(),
     ];
 }

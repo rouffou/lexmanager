@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>LexManager.Modules.Billing.IntegrationTests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+    <PackageReference Include="Testcontainers.PostgreSql" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="NSubstitute" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Bootstrapper\LexManager.Api\LexManager.Api.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Billing\LexManager.Modules.Billing.Infrastructure\LexManager.Modules.Billing.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Billing\LexManager.Modules.Billing.Contracts\LexManager.Modules.Billing.Contracts.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Calendar\LexManager.Modules.Calendar.Contracts\LexManager.Modules.Calendar.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

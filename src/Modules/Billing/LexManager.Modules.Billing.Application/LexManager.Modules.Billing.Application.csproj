@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>LexManager.Modules.Billing.Application</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mediarq.Core" />
+    <PackageReference Include="Mediarq.UnitOfWork" />
+    <PackageReference Include="FluentValidation" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LexManager.Modules.Billing.Domain\LexManager.Modules.Billing.Domain.csproj" />
+    <ProjectReference Include="..\LexManager.Modules.Billing.Contracts\LexManager.Modules.Billing.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\LexManager.Application.Abstractions\LexManager.Application.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\LexManager.Infrastructure\LexManager.Infrastructure.csproj" />
+
+    <!-- Cross-module reads via public contracts only (SRD §3.2). -->
+    <ProjectReference Include="..\..\CaseManagement\LexManager.Modules.CaseManagement.Contracts\LexManager.Modules.CaseManagement.Contracts.csproj" />
+    <ProjectReference Include="..\..\Identity\LexManager.Modules.Identity.Contracts\LexManager.Modules.Identity.Contracts.csproj" />
+    <ProjectReference Include="..\..\Calendar\LexManager.Modules.Calendar.Contracts\LexManager.Modules.Calendar.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

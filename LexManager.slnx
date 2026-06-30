@@ -9,6 +9,12 @@
     <Project Path="src/BuildingBlocks/LexManager.SharedKernel/LexManager.SharedKernel.csproj" />
   </Folder>
   <Folder Name="/src/Modules/" />
+  <Folder Name="/src/Modules/Billing/">
+    <Project Path="src/Modules/Billing/LexManager.Modules.Billing.Application/LexManager.Modules.Billing.Application.csproj" />
+    <Project Path="src/Modules/Billing/LexManager.Modules.Billing.Contracts/LexManager.Modules.Billing.Contracts.csproj" />
+    <Project Path="src/Modules/Billing/LexManager.Modules.Billing.Domain/LexManager.Modules.Billing.Domain.csproj" />
+    <Project Path="src/Modules/Billing/LexManager.Modules.Billing.Infrastructure/LexManager.Modules.Billing.Infrastructure.csproj" />
+  </Folder>
   <Folder Name="/src/Modules/Calendar/">
     <Project Path="src/Modules/Calendar/LexManager.Modules.Calendar.Application/LexManager.Modules.Calendar.Application.csproj" />
     <Project Path="src/Modules/Calendar/LexManager.Modules.Calendar.Contracts/LexManager.Modules.Calendar.Contracts.csproj" />
@@ -35,6 +41,8 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/LexManager.ArchitectureTests/LexManager.ArchitectureTests.csproj" />
+    <Project Path="tests/LexManager.Modules.Billing.IntegrationTests/LexManager.Modules.Billing.IntegrationTests.csproj" />
+    <Project Path="tests/LexManager.Modules.Billing.UnitTests/LexManager.Modules.Billing.UnitTests.csproj" />
     <Project Path="tests/LexManager.Modules.Calendar.IntegrationTests/LexManager.Modules.Calendar.IntegrationTests.csproj" />
     <Project Path="tests/LexManager.Modules.Calendar.UnitTests/LexManager.Modules.Calendar.UnitTests.csproj" />
     <Project Path="tests/LexManager.Modules.CaseManagement.IntegrationTests/LexManager.Modules.CaseManagement.IntegrationTests.csproj" />

@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>LexManager.Modules.Billing.UnitTests</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NSubstitute" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Modules\Billing\LexManager.Modules.Billing.Domain\LexManager.Modules.Billing.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Billing\LexManager.Modules.Billing.Application\LexManager.Modules.Billing.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Billing\LexManager.Modules.Billing.Contracts\LexManager.Modules.Billing.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

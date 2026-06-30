@@ -28,6 +28,10 @@
     <ProjectReference Include="..\..\src\Modules\Calendar\LexManager.Modules.Calendar.Domain\LexManager.Modules.Calendar.Domain.csproj" />
     <ProjectReference Include="..\..\src\Modules\Calendar\LexManager.Modules.Calendar.Application\LexManager.Modules.Calendar.Application.csproj" />
     <ProjectReference Include="..\..\src\Modules\Calendar\LexManager.Modules.Calendar.Infrastructure\LexManager.Modules.Calendar.Infrastructure.csproj" />
+
+    <ProjectReference Include="..\..\src\Modules\Billing\LexManager.Modules.Billing.Domain\LexManager.Modules.Billing.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Billing\LexManager.Modules.Billing.Application\LexManager.Modules.Billing.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Billing\LexManager.Modules.Billing.Infrastructure\LexManager.Modules.Billing.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

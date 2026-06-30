@@ -23,6 +23,7 @@
     <ProjectReference Include="..\..\Modules\CaseManagement\LexManager.Modules.CaseManagement.Infrastructure\LexManager.Modules.CaseManagement.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\Documents\LexManager.Modules.Documents.Infrastructure\LexManager.Modules.Documents.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\Calendar\LexManager.Modules.Calendar.Infrastructure\LexManager.Modules.Calendar.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\Billing\LexManager.Modules.Billing.Infrastructure\LexManager.Modules.Billing.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
