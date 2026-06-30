@@ -1,0 +1,67 @@
+.carpa {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.carpa__summary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.carpa__balance {
+  display: flex;
+  flex-direction: column;
+}
+
+.carpa__balance-label {
+  font-size: 0.8rem;
+  color: var(--lex-muted);
+}
+
+.carpa__balance-value {
+  font-family: Merriweather, Georgia, serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--lex-primary);
+}
+
+.carpa__form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--lex-hover);
+  border-radius: 4px;
+  background: var(--lex-bg);
+}
+
+.carpa__table {
+  width: 100%;
+}
+
+.carpa__empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--lex-muted);
+}
+
+.carpa__empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 24px;
+  text-align: center;
+  color: var(--lex-muted);
+
+  mat-icon {
+    font-size: 48px;
+    width: 48px;
+    height: 48px;
+    color: var(--lex-accent);
+  }
+}

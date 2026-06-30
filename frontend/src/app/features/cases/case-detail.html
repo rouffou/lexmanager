@@ -73,6 +73,10 @@
           <p class="case-detail__empty">Aucun document de facturation.</p>
         }
       </mat-tab>
+
+      <mat-tab label="Comptes de tiers">
+        <lex-carpa-panel [caseId]="id()" [clientId]="detail()?.clientId ?? null" />
+      </mat-tab>
     </mat-tab-group>
   </mat-card>
 </section>

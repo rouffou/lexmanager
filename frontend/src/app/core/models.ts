@@ -86,3 +86,24 @@ export interface BillingDocumentSummary {
   dueDateUtc?: string | null;
   createdOnUtc: string;
 }
+
+// ─── Billing — CARPA / comptes de tiers (rubriqués), V11 §5 ─────────────────────
+export type CarpaTransactionType = 'Deposit' | 'Disbursement';
+
+export interface CarpaTransaction {
+  type: CarpaTransactionType;
+  amount: number;
+  description: string;
+  counterparty?: string | null;
+  occurredOnUtc: string;
+}
+
+export interface CarpaAccount {
+  id: string;
+  caseId: string;
+  clientId: string;
+  currency: string;
+  balance: number;
+  transactions: CarpaTransaction[];
+  openedOnUtc: string;
+}
