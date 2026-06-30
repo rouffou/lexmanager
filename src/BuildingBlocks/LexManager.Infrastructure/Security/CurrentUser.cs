@@ -3,16 +3,6 @@ using Microsoft.AspNetCore.Http;
 
 namespace LexManager.Infrastructure.Security;
 
-/// <summary>Ambient information about the authenticated caller, derived from the JWT claims.</summary>
-public interface ICurrentUser
-{
-    bool IsAuthenticated { get; }
-    Guid? UserId { get; }
-    string? Email { get; }
-    IReadOnlySet<string> Permissions { get; }
-    bool HasPermission(string permission);
-}
-
 public sealed class CurrentUser(IHttpContextAccessor httpContextAccessor) : ICurrentUser
 {
     private ClaimsPrincipal? Principal => httpContextAccessor.HttpContext?.User;

@@ -57,6 +57,3 @@ public class CreateClientIntegrationTests(IdentityApiFactory factory)
 
     private sealed record CreatedClient(Guid Id);
 }
-
-[CollectionDefinition(nameof(IdentityApiCollection))]
-public sealed class IdentityApiCollection : ICollectionFixture<IdentityApiFactory>;

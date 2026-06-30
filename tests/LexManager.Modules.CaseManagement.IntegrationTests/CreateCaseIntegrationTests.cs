@@ -52,6 +52,3 @@ public class CreateCaseIntegrationTests(CaseApiFactory factory)
 
     private sealed record CreatedCase(Guid Id);
 }
-
-[CollectionDefinition(nameof(CaseApiCollection))]
-public sealed class CaseApiCollection : ICollectionFixture<CaseApiFactory>;

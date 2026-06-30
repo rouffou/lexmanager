@@ -1,6 +1,5 @@
 using LexManager.Infrastructure.Audit;
 using LexManager.Infrastructure.Security;
-using Mediarq.Core.Common.Requests.Command;
 using Mediarq.Core.Common.Results;
 using Mediarq.Core.Mediators;
 using Mediarq.Extensions;
@@ -8,25 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 
 namespace LexManager.Infrastructure.UnitTests.Audit;
-
-public sealed record PingCommand(string Message) : ICommand<Result<string>>;
-
-public sealed class PingHandler : ICommandHandler<PingCommand, Result<string>>
-{
-    public Task<Result<string>> Handle(PingCommand request, CancellationToken cancellationToken = default) =>
-        Task.FromResult(Result.Success(request.Message));
-}
-
-public sealed class RecordingAuditSink : IAuditSink
-{
-    public List<AuditEntry> Entries { get; } = [];
-
-    public Task WriteAsync(AuditEntry entry, CancellationToken cancellationToken = default)
-    {
-        Entries.Add(entry);
-        return Task.CompletedTask;
-    }
-}
 
 public class AuditBehaviorTests
 {

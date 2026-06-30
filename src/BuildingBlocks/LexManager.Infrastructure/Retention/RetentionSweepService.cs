@@ -7,15 +7,6 @@ using Microsoft.Extensions.Options;
 
 namespace LexManager.Infrastructure.Retention;
 
-public sealed class RetentionOptions
-{
-    /// <summary>Disabled by default so the worker only runs where explicitly configured.</summary>
-    public bool Enabled { get; set; }
-
-    /// <summary>How often the sweep runs. Defaults to daily.</summary>
-    public TimeSpan Interval { get; set; } = TimeSpan.FromHours(24);
-}
-
 /// <summary>
 /// Background worker (HostedService) that periodically triggers the legal-retention purge and the
 /// overdue-payment review by publishing notifications (SRD §5.3 / §6). Modules react to those

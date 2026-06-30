@@ -97,6 +97,3 @@ public class DocumentLifecycleIntegrationTests(DocumentsApiFactory factory)
 
     private sealed record Created(Guid Id);
 }
-
-[CollectionDefinition(nameof(DocumentsApiCollection))]
-public sealed class DocumentsApiCollection : ICollectionFixture<DocumentsApiFactory>;

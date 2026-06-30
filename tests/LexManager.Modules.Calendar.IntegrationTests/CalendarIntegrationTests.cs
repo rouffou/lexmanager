@@ -94,6 +94,3 @@ public class CalendarIntegrationTests(CalendarApiFactory factory)
     private sealed record PagedAgenda(IReadOnlyList<CalendarEventSummaryResponse> Items, int TotalCount);
     private sealed record DeadlineResult(DateOnly DueDate, Guid? ScheduledEventId);
 }
-
-[CollectionDefinition(nameof(CalendarApiCollection))]
-public sealed class CalendarApiCollection : ICollectionFixture<CalendarApiFactory>;

@@ -7,10 +7,3 @@ public readonly record struct ClientId(Guid Value)
 
     public override string ToString() => Value.ToString();
 }
-
-/// <summary>Whether a client is a natural person or a legal entity (SRD Module 1).</summary>
-public enum ClientType
-{
-    PhysicalPerson = 1,
-    LegalPerson = 2
-}

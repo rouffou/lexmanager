@@ -119,6 +119,3 @@ public class BillingIntegrationTests(BillingApiFactory factory)
 
     private sealed record Created(Guid Id);
 }
-
-[CollectionDefinition(nameof(BillingApiCollection))]
-public sealed class BillingApiCollection : ICollectionFixture<BillingApiFactory>;
