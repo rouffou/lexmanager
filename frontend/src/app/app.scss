@@ -1,0 +1,33 @@
+.lex-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  gap: 8px;
+}
+
+.lex-brand {
+  font-family: Merriweather, Georgia, serif;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: 0.5px;
+}
+
+.lex-tagline {
+  font-size: 0.8rem;
+  opacity: 0.75;
+}
+
+.lex-shell {
+  height: calc(100vh - 64px);
+}
+
+.lex-sidenav {
+  width: 248px;
+  border-right: 1px solid #e2e8f0;
+  background: var(--lex-surface);
+  padding-top: 8px;
+}
+
+.lex-content {
+  background: var(--lex-bg);
+}

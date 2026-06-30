@@ -68,6 +68,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Serve the pre-built Angular SPA from wwwroot (populated by the Docker frontend stage, SRD §6.3/§7.2).
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -96,6 +100,9 @@ foreach (IModule module in modules)
 {
     module.MapEndpoints(apiGroup);
 }
+
+// SPA fallback: any non-API route is handled by the Angular client-side router.
+app.MapFallbackToFile("index.html");
 
 app.Run();
 

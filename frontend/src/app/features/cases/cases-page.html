@@ -1,0 +1,61 @@
+<section class="lex-page">
+  <header class="lex-page__header">
+    <h1>Dossiers</h1>
+    <span class="lex-spacer"></span>
+    <button mat-flat-button class="lex-cta" (click)="toggleForm()">
+      <mat-icon class="material-symbols-outlined">{{ showForm() ? 'close' : 'note_add' }}</mat-icon>
+      {{ showForm() ? 'Annuler' : 'Nouveau dossier' }}
+    </button>
+  </header>
+
+  @if (showForm()) {
+    <mat-card class="lex-card cases__form" appearance="outlined">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="cases__row">
+          <mat-form-field appearance="outline" class="cases__grow">
+            <mat-label>Intitulé du dossier</mat-label>
+            <input matInput formControlName="title" />
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Identifiant client (GUID)</mat-label>
+            <input matInput formControlName="clientId" />
+          </mat-form-field>
+        </div>
+        <div class="cases__row">
+          <mat-form-field appearance="outline"><mat-label>Juridiction</mat-label><input matInput formControlName="courtName" /></mat-form-field>
+          <mat-form-field appearance="outline"><mat-label>N° de RG</mat-label><input matInput formControlName="generalRegisterNumber" /></mat-form-field>
+        </div>
+        <div class="cases__actions">
+          <button mat-flat-button class="lex-cta" type="submit" [disabled]="form.invalid || saving()">Ouvrir le dossier</button>
+        </div>
+      </form>
+    </mat-card>
+  }
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  <mat-card class="lex-card" appearance="outlined">
+    <table mat-table [dataSource]="cases()">
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Intitulé</th>
+        <td mat-cell *matCellDef="let c">{{ c.title }}</td>
+      </ng-container>
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Statut</th>
+        <td mat-cell *matCellDef="let c"><span class="lex-status" [class]="c.status | statusChip">{{ c.status }}</span></td>
+      </ng-container>
+      <ng-container matColumnDef="openedOnUtc">
+        <th mat-header-cell *matHeaderCellDef>Ouvert le</th>
+        <td mat-cell *matCellDef="let c">{{ c.openedOnUtc | date: 'dd/MM/yyyy' }}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns" (click)="open(row)"></tr>
+    </table>
+
+    @if (!loading() && cases().length === 0) {
+      <p class="cases__empty">Aucun dossier pour le moment.</p>
+    }
+  </mat-card>
+</section>

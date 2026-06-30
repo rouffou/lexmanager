@@ -1,0 +1,25 @@
+.clients__form {
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.clients__row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  mat-form-field {
+    flex: 1 1 220px;
+  }
+}
+
+.clients__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.clients__empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--lex-muted);
+}

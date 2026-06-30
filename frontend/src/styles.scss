@@ -1,0 +1,112 @@
+@use '@angular/material' as mat;
+
+// ─── LexManager brand tokens (Charte graphique, SRD V11 §8) ───────────────────
+:root {
+  --lex-primary: #1E293B;   // Bleu Midnight — autorité institutionnelle
+  --lex-accent: #B45309;    // Or Royal / Bronze — CTA, prestige
+  --lex-bg: #F8FAFC;        // Gris Brume — fond
+  --lex-surface: #FFFFFF;   // Blanc Pur — cartes
+  --lex-success: #10B981;   // Vert Émeraude
+  --lex-alert: #EF4444;     // Rouge Écarlate
+  --lex-hover: #F1F5F9;     // Survol de ligne
+  --lex-ink: #0F172A;
+  --lex-muted: #64748B;
+}
+
+html {
+  color-scheme: light;
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+      tertiary: mat.$orange-palette,
+    ),
+    typography: (
+      plain-family: 'Inter, Roboto, "Helvetica Neue", sans-serif',
+      brand-family: 'Merriweather, Georgia, serif',
+    ),
+    density: 0,
+  ));
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--lex-bg);
+  color: var(--lex-ink);
+  font-family: Inter, Roboto, 'Helvetica Neue', sans-serif;
+}
+
+h1, h2, h3 {
+  font-family: Merriweather, Georgia, serif;
+  color: var(--lex-primary);
+}
+
+// Material Symbols Outlined as the default icon set (SRD V11 §8.3).
+mat-icon.material-symbols-outlined,
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+}
+
+// ─── Rigorous, professional geometry: max 4px radius (SRD V11 §8.3) ───────────
+.mat-mdc-card,
+.mat-mdc-raised-button,
+.mat-mdc-outlined-button,
+.mat-mdc-unelevated-button,
+.mat-mdc-button,
+.mat-mdc-form-field-flex {
+  border-radius: 4px !important;
+}
+
+// Brand toolbar.
+.lex-toolbar {
+  background: var(--lex-primary) !important;
+  color: #fff !important;
+}
+
+// Gold call-to-action.
+.lex-cta {
+  background: var(--lex-accent) !important;
+  color: #fff !important;
+}
+
+// Dense-but-airy tables with a discreet hover (SRD V11 §8.3).
+.mat-mdc-table {
+  background: var(--lex-surface);
+  width: 100%;
+}
+.mat-mdc-row:hover {
+  background: var(--lex-hover);
+  cursor: pointer;
+}
+
+.lex-card {
+  background: var(--lex-surface);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+  border-radius: 4px;
+}
+
+// Status chips.
+.lex-status {
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.lex-status--success { background: rgba(16, 185, 129, 0.12); color: var(--lex-success); }
+.lex-status--alert   { background: rgba(239, 68, 68, 0.12);  color: var(--lex-alert); }
+.lex-status--muted   { background: var(--lex-hover);          color: var(--lex-muted); }
+
+.lex-spacer { flex: 1 1 auto; }
+.lex-page { padding: 24px; max-width: 1200px; margin: 0 auto; }
+.lex-page__header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }

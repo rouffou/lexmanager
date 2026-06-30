@@ -1,0 +1,29 @@
+.cases__form {
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.cases__row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+
+  mat-form-field {
+    flex: 1 1 220px;
+  }
+}
+
+.cases__grow {
+  flex: 2 1 320px;
+}
+
+.cases__actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cases__empty {
+  padding: 24px;
+  text-align: center;
+  color: var(--lex-muted);
+}

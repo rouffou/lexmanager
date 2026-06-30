@@ -1,0 +1,20 @@
+<section class="lex-page">
+  <header class="lex-page__header">
+    <h1>Tableau de bord</h1>
+  </header>
+  <p class="dashboard__intro">
+    Bienvenue dans LexManager — la plateforme de gestion de votre cabinet.
+    Accédez à vos clients, dossiers, pièces, agenda et facturation.
+  </p>
+
+  <div class="dashboard__grid">
+    @for (tile of tiles; track tile.path) {
+      <mat-card class="lex-card dashboard__tile" appearance="outlined">
+        <mat-icon class="material-symbols-outlined dashboard__icon" [style.color]="tile.color">{{ tile.icon }}</mat-icon>
+        <h2>{{ tile.title }}</h2>
+        <p>{{ tile.description }}</p>
+        <a mat-stroked-button [routerLink]="tile.path">Ouvrir</a>
+      </mat-card>
+    }
+  </div>
+</section>

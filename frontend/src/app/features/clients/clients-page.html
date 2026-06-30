@@ -1,0 +1,79 @@
+<section class="lex-page">
+  <header class="lex-page__header">
+    <h1>Clients</h1>
+    <span class="lex-spacer"></span>
+    <button mat-flat-button class="lex-cta" (click)="toggleForm()">
+      <mat-icon class="material-symbols-outlined">{{ showForm() ? 'close' : 'person_add' }}</mat-icon>
+      {{ showForm() ? 'Annuler' : 'Nouveau client' }}
+    </button>
+  </header>
+
+  @if (showForm()) {
+    <mat-card class="lex-card clients__form" appearance="outlined">
+      <form [formGroup]="form" (ngSubmit)="submit()">
+        <div class="clients__row">
+          <mat-form-field appearance="outline">
+            <mat-label>Type</mat-label>
+            <mat-select formControlName="type">
+              <mat-option value="PhysicalPerson">Personne physique</mat-option>
+              <mat-option value="LegalPerson">Personne morale</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" type="email" />
+          </mat-form-field>
+        </div>
+
+        @if (form.value.type === 'PhysicalPerson') {
+          <div class="clients__row">
+            <mat-form-field appearance="outline"><mat-label>Prénom</mat-label><input matInput formControlName="firstName" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Nom</mat-label><input matInput formControlName="lastName" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>N° d'identité (CNIE)</mat-label><input matInput formControlName="nationalIdentityNumber" /></mat-form-field>
+          </div>
+        } @else {
+          <div class="clients__row">
+            <mat-form-field appearance="outline"><mat-label>Raison sociale</mat-label><input matInput formControlName="companyName" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>SIRET (14 chiffres)</mat-label><input matInput formControlName="registrationNumber" /></mat-form-field>
+            <mat-form-field appearance="outline"><mat-label>Représentant légal</mat-label><input matInput formControlName="legalRepresentative" /></mat-form-field>
+          </div>
+        }
+
+        <div class="clients__actions">
+          <button mat-flat-button class="lex-cta" type="submit" [disabled]="form.invalid || saving()">Enregistrer</button>
+        </div>
+      </form>
+    </mat-card>
+  }
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  <mat-card class="lex-card" appearance="outlined">
+    <table mat-table [dataSource]="clients()">
+      <ng-container matColumnDef="displayName">
+        <th mat-header-cell *matHeaderCellDef>Nom</th>
+        <td mat-cell *matCellDef="let c">{{ c.displayName }}</td>
+      </ng-container>
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let c">{{ c.type === 'PhysicalPerson' ? 'Physique' : 'Morale' }}</td>
+      </ng-container>
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let c">{{ c.email }}</td>
+      </ng-container>
+      <ng-container matColumnDef="createdOnUtc">
+        <th mat-header-cell *matHeaderCellDef>Créé le</th>
+        <td mat-cell *matCellDef="let c">{{ c.createdOnUtc | date: 'dd/MM/yyyy' }}</td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="columns"></tr>
+      <tr mat-row *matRowDef="let row; columns: columns"></tr>
+    </table>
+
+    @if (!loading() && clients().length === 0) {
+      <p class="clients__empty">Aucun client pour le moment.</p>
+    }
+  </mat-card>
+</section>

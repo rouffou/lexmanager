@@ -1,0 +1,31 @@
+<mat-toolbar class="lex-toolbar">
+  <button mat-icon-button (click)="drawer.toggle()" aria-label="Basculer le menu">
+    <mat-icon class="material-symbols-outlined">menu</mat-icon>
+  </button>
+  <span class="lex-brand">LexManager</span>
+  <span class="lex-spacer"></span>
+  <span class="lex-tagline">Gestion de cabinet d'avocats</span>
+</mat-toolbar>
+
+<mat-sidenav-container class="lex-shell">
+  <mat-sidenav #drawer mode="side" opened class="lex-sidenav">
+    <mat-nav-list>
+      @for (item of nav; track item.path) {
+        <a
+          mat-list-item
+          [routerLink]="item.path"
+          routerLinkActive
+          #rla="routerLinkActive"
+          [activated]="rla.isActive"
+        >
+          <mat-icon matListItemIcon class="material-symbols-outlined">{{ item.icon }}</mat-icon>
+          <span matListItemTitle>{{ item.label }}</span>
+        </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="lex-content">
+    <router-outlet />
+  </mat-sidenav-content>
+</mat-sidenav-container>
