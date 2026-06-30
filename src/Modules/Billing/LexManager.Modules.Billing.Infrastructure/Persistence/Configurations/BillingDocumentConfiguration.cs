@@ -22,6 +22,8 @@ internal sealed class BillingDocumentConfiguration : IEntityTypeConfiguration<Bi
         builder.Property(document => document.Mode).HasConversion<string>().HasMaxLength(32).IsRequired();
         builder.Property(document => document.Status).HasConversion<string>().HasMaxLength(32).IsRequired();
         builder.Property(document => document.TaxRatePercent).HasPrecision(5, 2).IsRequired();
+        builder.Property(document => document.VatRegime).HasConversion<string>().HasMaxLength(32).IsRequired();
+        builder.Property(document => document.LegalMention).HasMaxLength(256);
         builder.Property(document => document.Currency).HasMaxLength(3).IsRequired();
         builder.Property(document => document.Number).HasMaxLength(32);
         builder.Property(document => document.CreatedOnUtc).IsRequired();

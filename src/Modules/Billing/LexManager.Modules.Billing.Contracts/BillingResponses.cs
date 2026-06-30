@@ -11,6 +11,8 @@ public sealed record BillingDocumentResponse(
     string Kind,
     string Mode,
     string Status,
+    string VatRegime,
+    string? LegalMention,
     string? Number,
     string Currency,
     decimal Subtotal,
@@ -40,6 +42,17 @@ public sealed record CaseBillingSummaryResponse(
     decimal TotalOutstanding,
     string Currency,
     int DocumentCount);
+
+public sealed record LegalInterestResponse(
+    decimal Principal,
+    string Currency,
+    DateOnly FromDate,
+    DateOnly ToDate,
+    int Days,
+    decimal AnnualRatePercent,
+    bool Capitalized,
+    decimal Interest,
+    decimal Total);
 
 /// <summary>Billing module's public cross-module contract.</summary>
 public interface IBillingApi : IModuleApi

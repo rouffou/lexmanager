@@ -64,6 +64,8 @@ internal sealed class BillingReadRepository(BillingDbContext context) : IBilling
         document.Kind.ToString(),
         document.Mode.ToString(),
         document.Status.ToString(),
+        document.VatRegime.ToString(),
+        document.LegalMention,
         document.Number,
         document.Currency,
         document.Subtotal.Amount,

@@ -61,6 +61,53 @@ public class BillingIntegrationTests(BillingApiFactory factory)
         document.Total.Should().Be(363m); // 21% Belgian VAT
     }
 
+    [DockerFact]
+    public async Task SimulateLegalInterest_Should_ComputeBelgianInterest()
+    {
+        var payload = new
+        {
+            principal = 10000m,
+            fromDate = "2023-01-01",
+            toDate = "2024-01-01",
+            annualRatePercent = 8m,
+            capitalize = false,
+        };
+
+        HttpResponseMessage response = await _client.PostAsJsonAsync("/api/billing/legal-interest/simulate", payload);
+        response.StatusCode.Should().Be(HttpStatusCode.OK);
+
+        LegalInterestResponse? result = await response.Content.ReadFromJsonAsync<LegalInterestResponse>();
+        result!.Days.Should().Be(365);
+        result.Interest.Should().Be(800m);
+        result.Total.Should().Be(10800m);
+    }
+
+    [DockerFact]
+    public async Task CreateBillingDocument_ProDeo_Should_ExemptVat()
+    {
+        var create = new
+        {
+            caseId = Guid.NewGuid(),
+            clientId = Guid.NewGuid(),
+            kind = "FeeNote",
+            mode = "Flat",
+            taxRatePercent = 21m,
+            regime = "ProDeo",
+        };
+        HttpResponseMessage created = await _client.PostAsJsonAsync("/api/billing/documents", create);
+        created.StatusCode.Should().Be(HttpStatusCode.Created);
+        var id = (await created.Content.ReadFromJsonAsync<Created>())!.Id;
+
+        await _client.PostAsJsonAsync($"/api/billing/documents/{id}/lines",
+            new { description = "Aide juridique", quantity = 1m, unitPrice = 500m });
+
+        BillingDocumentResponse? document = await _client.GetFromJsonAsync<BillingDocumentResponse>($"/api/billing/documents/{id}");
+        document!.VatRegime.Should().Be("ProDeo");
+        document.TaxAmount.Should().Be(0m);
+        document.Total.Should().Be(500m);
+        document.LegalMention.Should().Contain("pro deo");
+    }
+
     private async Task<Guid> CreateDraftAsync()
     {
         var payload = new { caseId = Guid.NewGuid(), clientId = Guid.NewGuid(), kind = "Invoice", mode = "Flat", taxRatePercent = 20m };

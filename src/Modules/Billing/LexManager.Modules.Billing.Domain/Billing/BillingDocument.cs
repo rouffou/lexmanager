@@ -22,6 +22,8 @@ public sealed class BillingDocument : AggregateRoot<BillingDocumentId>
         BillingDocumentKind kind,
         BillingMode mode,
         decimal taxRatePercent,
+        VatRegime vatRegime,
+        string? legalMention,
         string currency) : base(id)
     {
         CaseId = caseId;
@@ -29,6 +31,8 @@ public sealed class BillingDocument : AggregateRoot<BillingDocumentId>
         Kind = kind;
         Mode = mode;
         TaxRatePercent = taxRatePercent;
+        VatRegime = vatRegime;
+        LegalMention = legalMention;
         Currency = currency;
         Status = BillingStatus.Draft;
         CreatedOnUtc = DateTime.UtcNow;
@@ -40,6 +44,11 @@ public sealed class BillingDocument : AggregateRoot<BillingDocumentId>
     public BillingMode Mode { get; private set; }
     public BillingStatus Status { get; private set; }
     public decimal TaxRatePercent { get; private set; }
+    public VatRegime VatRegime { get; private set; }
+
+    /// <summary>Legal VAT mention printed on exempt documents (e.g. reverse charge, pro deo).</summary>
+    public string? LegalMention { get; private set; }
+
     public string Currency { get; private set; } = Money.DefaultCurrency;
     public string? Number { get; private set; }
     public DateTime CreatedOnUtc { get; private set; }
@@ -59,10 +68,20 @@ public sealed class BillingDocument : AggregateRoot<BillingDocumentId>
         BillingDocumentKind kind,
         BillingMode mode,
         decimal taxRatePercent,
-        string currency = Money.DefaultCurrency)
+        string currency = Money.DefaultCurrency,
+        VatRegime vatRegime = VatRegime.Standard)
     {
+        // Exemptions zero-out the VAT and carry the mandatory legal mention (SRD V11 §5).
+        (decimal effectiveRate, string? mention) = vatRegime switch
+        {
+            VatRegime.ProDeo => (0m, "Exonération de TVA — aide juridique (pro deo)."),
+            VatRegime.IntraCommunityReverseCharge => (0m, "Autoliquidation — TVA due par le preneur (art. 51 §2 Code TVA)."),
+            VatRegime.Exempt => (0m, "Opération exonérée de TVA."),
+            _ => (taxRatePercent, null)
+        };
+
         return new BillingDocument(
-            BillingDocumentId.New(), caseId, clientId, kind, mode, taxRatePercent,
+            BillingDocumentId.New(), caseId, clientId, kind, mode, effectiveRate, vatRegime, mention,
             string.IsNullOrWhiteSpace(currency) ? Money.DefaultCurrency : currency.ToUpperInvariant());
     }
 

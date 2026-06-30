@@ -21,7 +21,8 @@ public sealed record CreateBillingDocumentCommand(
     BillingDocumentKind Kind,
     BillingMode Mode,
     decimal TaxRatePercent = 21m, // Belgian VAT on lawyers' services (SRD §5)
-    string Currency = Money.DefaultCurrency) : ICommand<Result<Guid>>;
+    string Currency = Money.DefaultCurrency,
+    VatRegime Regime = VatRegime.Standard) : ICommand<Result<Guid>>;
 
 public sealed class CreateBillingDocumentValidator : AbstractValidator<CreateBillingDocumentCommand>
 {
@@ -52,7 +53,7 @@ public sealed class CreateBillingDocumentCommandHandler(
         }
 
         BillingDocument document = BillingDocument.CreateDraft(
-            request.CaseId, request.ClientId, request.Kind, request.Mode, request.TaxRatePercent, request.Currency);
+            request.CaseId, request.ClientId, request.Kind, request.Mode, request.TaxRatePercent, request.Currency, request.Regime);
 
         repository.Add(document);
         await unitOfWork.SaveChangesAsync(cancellationToken);
