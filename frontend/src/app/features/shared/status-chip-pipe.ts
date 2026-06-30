@@ -7,9 +7,11 @@ export class StatusChipPipe implements PipeTransform {
     switch ((status ?? '').toLowerCase()) {
       case 'paid':
       case 'closed':
+      case 'approved':
         return 'lex-status--success';
       case 'overdue':
       case 'cancelled':
+      case 'rejected':
         return 'lex-status--alert';
       default:
         return 'lex-status--muted';

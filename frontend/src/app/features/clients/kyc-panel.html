@@ -1,0 +1,94 @@
+<div class="kyc">
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  @if (file(); as f) {
+    <div class="kyc__summary">
+      <div class="kyc__score">
+        <span class="kyc__score-label">Score de conformité</span>
+        <span class="kyc__score-value">{{ f.complianceScore }} / 100</span>
+        <mat-progress-bar mode="determinate" [value]="f.complianceScore" />
+      </div>
+      <div class="kyc__meta">
+        <span class="lex-status" [class]="f.status | statusChip">{{ f.status }}</span>
+        <span class="lex-status lex-status--muted">Risque : {{ f.riskLevel }}</span>
+        @if (f.isPoliticallyExposed) {
+          <span class="lex-status lex-status--alert">PEP</span>
+        }
+      </div>
+    </div>
+
+    <div class="kyc__required">
+      <h3>Vérifications requises</h3>
+      <ul class="kyc__checklist">
+        @for (kind of f.requiredChecks; track kind) {
+          <li [class.kyc__item--done]="isCleared(kind)">
+            <mat-icon class="material-symbols-outlined">{{ isCleared(kind) ? 'check_circle' : 'radio_button_unchecked' }}</mat-icon>
+            {{ kindLabel(kind) }}
+          </li>
+        }
+      </ul>
+    </div>
+
+    @if (f.status === 'InProgress') {
+      <form class="kyc__form" [formGroup]="checkForm" (ngSubmit)="recordCheck()">
+        <mat-form-field appearance="outline">
+          <mat-label>Vérification</mat-label>
+          <mat-select formControlName="kind">
+            @for (entry of allKinds; track entry.value) {
+              <mat-option [value]="entry.value">{{ entry.label }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Référence</mat-label>
+          <input matInput formControlName="reference" placeholder="N° document / réf. criblage" />
+        </mat-form-field>
+        <mat-checkbox formControlName="cleared">Validée</mat-checkbox>
+        <button mat-flat-button color="primary" type="submit" [disabled]="checkForm.invalid || saving()">
+          <mat-icon class="material-symbols-outlined">fact_check</mat-icon> Enregistrer
+        </button>
+      </form>
+
+      <div class="kyc__decision">
+        <button mat-flat-button class="lex-cta" (click)="approve()" [disabled]="!f.canApprove || saving()">
+          <mat-icon class="material-symbols-outlined">verified</mat-icon> Accepter le mandat
+        </button>
+        <mat-form-field appearance="outline" class="kyc__reason">
+          <mat-label>Motif de refus</mat-label>
+          <input matInput [formControl]="rejectReason" />
+        </mat-form-field>
+        <button mat-stroked-button (click)="reject()" [disabled]="saving()">
+          <mat-icon class="material-symbols-outlined">block</mat-icon> Refuser
+        </button>
+      </div>
+    } @else {
+      <div class="kyc__outcome">
+        <p><strong>Décision :</strong> {{ f.status }} le {{ f.decidedOnUtc | date: 'dd/MM/yyyy' }}</p>
+        @if (f.decisionReason) {
+          <p><strong>Motif :</strong> {{ f.decisionReason }}</p>
+        }
+      </div>
+    }
+  } @else if (notFound() && !loading()) {
+    <form class="kyc__empty-state" [formGroup]="startForm" (ngSubmit)="start()">
+      <mat-icon class="material-symbols-outlined">policy</mat-icon>
+      <p>Aucun dossier de vigilance (LCB-FT) pour ce client.</p>
+      <div class="kyc__start-fields">
+        <mat-form-field appearance="outline">
+          <mat-label>Niveau de risque</mat-label>
+          <mat-select formControlName="riskLevel">
+            <mat-option value="Low">Faible</mat-option>
+            <mat-option value="Standard">Standard</mat-option>
+            <mat-option value="High">Élevé</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-checkbox formControlName="isPoliticallyExposed">Personne politiquement exposée (PEP)</mat-checkbox>
+      </div>
+      <button mat-flat-button class="lex-cta" type="submit" [disabled]="saving()">
+        <mat-icon class="material-symbols-outlined">add</mat-icon> Démarrer la vigilance
+      </button>
+    </form>
+  }
+</div>

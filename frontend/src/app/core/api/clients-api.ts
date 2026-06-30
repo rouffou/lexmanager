@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { ClientSummary, CreateClientRequest, PagedList } from '../models';
+import { ClientDetail, ClientSummary, CreateClientRequest, PagedList } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class ClientsApi {
@@ -15,6 +15,10 @@ export class ClientsApi {
       params = params.set('search', search);
     }
     return this.http.get<PagedList<ClientSummary>>(this.base, { params });
+  }
+
+  getById(id: string): Observable<ClientDetail> {
+    return this.http.get<ClientDetail>(`${this.base}/${id}`);
   }
 
   create(request: CreateClientRequest): Observable<{ id: string }> {

@@ -33,6 +33,55 @@ export interface CreateClientRequest {
   legalRepresentative?: string | null;
 }
 
+export interface ClientDetail {
+  id: string;
+  type: string;
+  displayName: string;
+  email: string;
+  phone?: string | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  nationalIdentityNumber?: string | null;
+  companyName?: string | null;
+  registrationNumber?: string | null;
+  legalRepresentative?: string | null;
+  createdOnUtc: string;
+}
+
+// ─── KYC / LCB-FT (devoir de vigilance), V11 §30 ────────────────────────────────
+export type DueDiligenceStatus = 'InProgress' | 'Approved' | 'Rejected';
+export type RiskLevel = 'Low' | 'Standard' | 'High';
+export type VerificationKind =
+  | 'IdentityDocument'
+  | 'AddressProof'
+  | 'CompanyRegistry'
+  | 'BeneficialOwner'
+  | 'PepScreening'
+  | 'SanctionsScreening';
+
+export interface VerificationCheck {
+  kind: VerificationKind;
+  reference: string;
+  cleared: boolean;
+  notes?: string | null;
+  recordedOnUtc: string;
+}
+
+export interface DueDiligence {
+  id: string;
+  clientId: string;
+  status: DueDiligenceStatus;
+  riskLevel: RiskLevel;
+  isPoliticallyExposed: boolean;
+  complianceScore: number;
+  canApprove: boolean;
+  requiredChecks: VerificationKind[];
+  checks: VerificationCheck[];
+  openedOnUtc: string;
+  decidedOnUtc?: string | null;
+  decisionReason?: string | null;
+}
+
 // ─── Case Management ──────────────────────────────────────────────────────────
 export interface CaseSummary {
   id: string;

@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -26,6 +27,7 @@ import { ClientSummary } from '../../core/models';
 export class ClientsPage {
   private readonly api = inject(ClientsApi);
   private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
   private readonly snackBar = inject(MatSnackBar);
 
   protected readonly columns = ['displayName', 'type', 'email', 'createdOnUtc'];
@@ -51,6 +53,10 @@ export class ClientsPage {
 
   protected toggleForm(): void {
     this.showForm.update((open) => !open);
+  }
+
+  protected open(row: ClientSummary): void {
+    this.router.navigate(['/clients', row.id]);
   }
 
   protected load(): void {

@@ -13,6 +13,11 @@ export const routes: Routes = [
     loadComponent: () => import('./features/clients/clients-page').then((m) => m.ClientsPage),
   },
   {
+    path: 'clients/:id',
+    title: 'Client — LexManager',
+    loadComponent: () => import('./features/clients/client-detail').then((m) => m.ClientDetail),
+  },
+  {
     path: 'cases',
     title: 'Dossiers — LexManager',
     loadComponent: () => import('./features/cases/cases-page').then((m) => m.CasesPage),

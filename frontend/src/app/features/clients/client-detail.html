@@ -1,0 +1,42 @@
+<section class="lex-page">
+  <header class="lex-page__header">
+    <a mat-icon-button routerLink="/clients" aria-label="Retour"><mat-icon class="material-symbols-outlined">arrow_back</mat-icon></a>
+    <h1>{{ client()?.displayName ?? 'Client' }}</h1>
+    @if (client(); as c) {
+      <span class="lex-status lex-status--muted">{{ c.type }}</span>
+    }
+  </header>
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  <mat-card class="lex-card" appearance="outlined">
+    <mat-tab-group>
+      <mat-tab label="Informations">
+        @if (client(); as c) {
+          <div class="client-detail__info">
+            <p><strong>Courriel :</strong> {{ c.email }}</p>
+            @if (c.phone) {
+              <p><strong>Téléphone :</strong> {{ c.phone }}</p>
+            }
+            @if (c.nationalIdentityNumber) {
+              <p><strong>N° d'identité (CNIE) :</strong> {{ c.nationalIdentityNumber }}</p>
+            }
+            @if (c.companyName) {
+              <p><strong>Société :</strong> {{ c.companyName }} (BCE {{ c.registrationNumber }})</p>
+            }
+            @if (c.legalRepresentative) {
+              <p><strong>Représentant légal :</strong> {{ c.legalRepresentative }}</p>
+            }
+            <p><strong>Créé le :</strong> {{ c.createdOnUtc | date: 'dd/MM/yyyy' }}</p>
+          </div>
+        }
+      </mat-tab>
+
+      <mat-tab label="Conformité (KYC/LCB-FT)">
+        <lex-kyc-panel [clientId]="id()" />
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</section>
