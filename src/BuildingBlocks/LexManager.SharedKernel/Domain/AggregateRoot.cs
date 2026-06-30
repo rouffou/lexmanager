@@ -6,10 +6,22 @@ namespace LexManager.SharedKernel.Domain;
 public interface IAggregateRoot;
 
 /// <summary>
+/// Non-generic view over an aggregate's pending domain events, so a DbContext can collect and
+/// dispatch them without knowing the aggregate's strongly-typed id (useful when one context holds
+/// several aggregate types).
+/// </summary>
+public interface IHasDomainEvents
+{
+    IReadOnlyCollection<IDomainEvent> DomainEvents { get; }
+
+    void ClearDomainEvents();
+}
+
+/// <summary>
 /// Base class for aggregate roots. Collects domain events raised during a unit of work,
 /// to be dispatched (via Mediarq) after the transaction commits.
 /// </summary>
-public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot
+public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot, IHasDomainEvents
     where TId : notnull
 {
     private readonly List<IDomainEvent> _domainEvents = [];

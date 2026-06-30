@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>LexManager.Modules.Calendar.Infrastructure</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="LexManager.Modules.Calendar.UnitTests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mediarq.Core" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LexManager.Modules.Calendar.Domain\LexManager.Modules.Calendar.Domain.csproj" />
+    <ProjectReference Include="..\LexManager.Modules.Calendar.Application\LexManager.Modules.Calendar.Application.csproj" />
+    <ProjectReference Include="..\LexManager.Modules.Calendar.Contracts\LexManager.Modules.Calendar.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\LexManager.Infrastructure\LexManager.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

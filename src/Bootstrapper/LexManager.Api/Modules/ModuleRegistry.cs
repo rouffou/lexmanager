@@ -1,4 +1,5 @@
 using LexManager.Infrastructure.Modules;
+using LexManager.Modules.Calendar.Infrastructure;
 using LexManager.Modules.CaseManagement.Infrastructure;
 using LexManager.Modules.Documents.Infrastructure;
 using LexManager.Modules.Identity.Infrastructure;
@@ -17,5 +18,6 @@ public static class ModuleRegistry
         new IdentityModule(),
         new CaseManagementModule(),
         new DocumentsModule(),
+        new CalendarModule(),
     ];
 }

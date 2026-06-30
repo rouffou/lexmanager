@@ -24,6 +24,10 @@
     <ProjectReference Include="..\..\src\Modules\Documents\LexManager.Modules.Documents.Domain\LexManager.Modules.Documents.Domain.csproj" />
     <ProjectReference Include="..\..\src\Modules\Documents\LexManager.Modules.Documents.Application\LexManager.Modules.Documents.Application.csproj" />
     <ProjectReference Include="..\..\src\Modules\Documents\LexManager.Modules.Documents.Infrastructure\LexManager.Modules.Documents.Infrastructure.csproj" />
+
+    <ProjectReference Include="..\..\src\Modules\Calendar\LexManager.Modules.Calendar.Domain\LexManager.Modules.Calendar.Domain.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Calendar\LexManager.Modules.Calendar.Application\LexManager.Modules.Calendar.Application.csproj" />
+    <ProjectReference Include="..\..\src\Modules\Calendar\LexManager.Modules.Calendar.Infrastructure\LexManager.Modules.Calendar.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

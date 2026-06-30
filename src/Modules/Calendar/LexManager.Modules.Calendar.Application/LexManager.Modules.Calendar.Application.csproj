@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>LexManager.Modules.Calendar.Application</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Mediarq.Core" />
+    <PackageReference Include="Mediarq.UnitOfWork" />
+    <PackageReference Include="FluentValidation" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LexManager.Modules.Calendar.Domain\LexManager.Modules.Calendar.Domain.csproj" />
+    <ProjectReference Include="..\LexManager.Modules.Calendar.Contracts\LexManager.Modules.Calendar.Contracts.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\LexManager.Application.Abstractions\LexManager.Application.Abstractions.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\LexManager.Infrastructure\LexManager.Infrastructure.csproj" />
+
+    <!-- Cross-module: events and time entries reference cases via Case Management's public contract. -->
+    <ProjectReference Include="..\..\CaseManagement\LexManager.Modules.CaseManagement.Contracts\LexManager.Modules.CaseManagement.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>
