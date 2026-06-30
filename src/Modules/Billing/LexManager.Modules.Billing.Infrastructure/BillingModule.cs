@@ -5,6 +5,7 @@ using LexManager.Modules.Billing.Application;
 using LexManager.Modules.Billing.Application.Abstractions;
 using LexManager.Modules.Billing.Contracts;
 using LexManager.Modules.Billing.Domain.Billing;
+using LexManager.Modules.Billing.Domain.Carpa;
 using LexManager.Modules.Billing.Infrastructure.Numbering;
 using LexManager.Modules.Billing.Infrastructure.Persistence;
 using LexManager.Modules.Billing.Infrastructure.PublicApi;
@@ -36,6 +37,8 @@ public sealed class BillingModule : IModule
         services.AddScoped<IBillingUnitOfWork>(provider => provider.GetRequiredService<BillingDbContext>());
         services.AddScoped<IBillingDocumentRepository, BillingDocumentRepository>();
         services.AddScoped<IBillingReadRepository, BillingReadRepository>();
+        services.AddScoped<ICarpaAccountRepository, CarpaAccountRepository>();
+        services.AddScoped<ICarpaReadRepository, CarpaReadRepository>();
         services.AddScoped<IInvoiceNumberGenerator, SequentialInvoiceNumberGenerator>();
         services.AddScoped<IPaymentReminderSender, LoggingPaymentReminderSender>();
         services.AddScoped<IBillingApi, BillingApi>();

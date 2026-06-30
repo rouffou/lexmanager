@@ -1,5 +1,6 @@
 using LexManager.Modules.Billing.Application.Abstractions;
 using LexManager.Modules.Billing.Domain.Billing;
+using LexManager.Modules.Billing.Domain.Carpa;
 using LexManager.SharedKernel.Domain;
 using Mediarq.Core.Mediators;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,8 @@ public sealed class BillingDbContext(DbContextOptions<BillingDbContext> options,
     public const string Schema = "billing";
 
     public DbSet<BillingDocument> Documents => Set<BillingDocument>();
+
+    public DbSet<CarpaAccount> CarpaAccounts => Set<CarpaAccount>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
