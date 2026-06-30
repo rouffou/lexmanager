@@ -186,9 +186,9 @@ Pour garantir la portabilité entre l'environnement de développement local et l
 
 ---
 
-## 7. Guide d'Ingénierie de Prompt pour l'Assistant de Code (Claude)
+## 7. Guide d'Ingénierie de Prompt pour l'Assistant de Code
 
-Cette section est spécifiquement rédigée pour servir d'instructions directes à donner à l'assistant de code (Claude) afin de garantir le respect rigoureux de la structure technique et l'implémentation des briques de gratuité.
+Cette section est spécifiquement rédigée pour servir d'instructions directes à donner à l'assistant de code afin de garantir le respect rigoureux de la structure technique et l'implémentation des briques de gratuité.
 
 ### 7.1 Prompt d'Initialisation Globale
 > "Prends connaissance du cahier des charges ci-dessus. Nous allons développer LexManager sous forme de Monolithe Modulaire en .NET 9 et Angular 17+ avec une architecture Vertical Slices. Chaque module doit être hermétique. L'objectif de couverture de code par les tests automatisés (xUnit, NetArchTest) est de 90% minimum. Ne génère pas tout le code d'un coup, attends mes instructions module par module."
@@ -242,7 +242,7 @@ Les directives d'intégration pour les interfaces générées sont les suivantes
 * **Tableaux de données (`mat-table`) :** Affichage dense mais aéré. Intégration obligatoire d'un effet de survol au curseur (*hover*) discret en `#F1F5F9` pour identifier instantanément la ligne sélectionnée.
 * **Iconographie :** Utilisation exclusive de la bibliothèque **`Lucide Icons`** ou **`Material Symbols (Outlined)`** avec un trait fin et constant.
 
-### 8.4 Prompt de Configuration Graphique pour Claude
+### 8.4 Prompt de Configuration Graphique pour l'Assistant de Code
 > "Pour l'interface Angular 17+ avec Angular Material, applique la charte graphique suivante dans le fichier de thème global (`styles.scss`) :
 > * Définis un thème personnalisé (Custom Theme) avec : Primary = `#1E293B` (Bleu Midnight) et Accent = `#B45309` (Or Royal).
 > * Utilise la police `Merriweather` pour les titres principaux afin de donner un aspect institutionnel/juridique, et la police `Inter` pour tout le texte courant et les tableaux.
