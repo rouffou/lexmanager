@@ -5,6 +5,7 @@ using LexManager.Modules.CaseManagement.Application;
 using LexManager.Modules.CaseManagement.Application.Abstractions;
 using LexManager.Modules.CaseManagement.Contracts;
 using LexManager.Modules.CaseManagement.Domain.Cases;
+using LexManager.Modules.CaseManagement.Domain.Procedures;
 using LexManager.Modules.CaseManagement.Infrastructure.Persistence;
 using LexManager.Modules.CaseManagement.Infrastructure.PublicApi;
 using Microsoft.AspNetCore.Routing;
@@ -34,6 +35,8 @@ public sealed class CaseManagementModule : IModule
         services.AddScoped<ICaseUnitOfWork>(provider => provider.GetRequiredService<CaseManagementDbContext>());
         services.AddScoped<ICaseRepository, CaseRepository>();
         services.AddScoped<ICaseReadRepository, CaseReadRepository>();
+        services.AddScoped<IProcedurePlanRepository, ProcedurePlanRepository>();
+        services.AddScoped<IProcedureReadRepository, ProcedureReadRepository>();
         services.AddScoped<ICaseApi, CaseApi>();
 
         services.AddEndpointsFrom(typeof(ApplicationMarker).Assembly);

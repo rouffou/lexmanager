@@ -1,5 +1,6 @@
 using LexManager.Modules.CaseManagement.Application.Abstractions;
 using LexManager.Modules.CaseManagement.Domain.Cases;
+using LexManager.Modules.CaseManagement.Domain.Procedures;
 using LexManager.SharedKernel.Domain;
 using Mediarq.Core.Mediators;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ public sealed class CaseManagementDbContext(DbContextOptions<CaseManagementDbCon
     public const string Schema = "casemanagement";
 
     public DbSet<Case> Cases => Set<Case>();
+    public DbSet<ProcedurePlan> ProcedurePlans => Set<ProcedurePlan>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -22,8 +24,10 @@ public sealed class CaseManagementDbContext(DbContextOptions<CaseManagementDbCon
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        List<AggregateRoot<CaseId>> aggregates = ChangeTracker
-            .Entries<AggregateRoot<CaseId>>()
+        // Two aggregate types with different id shapes live here (Case, ProcedurePlan), so collect
+        // events through the non-generic IHasDomainEvents view rather than AggregateRoot<CaseId>.
+        List<IHasDomainEvents> aggregates = ChangeTracker
+            .Entries<IHasDomainEvents>()
             .Select(entry => entry.Entity)
             .Where(aggregate => aggregate.DomainEvents.Count > 0)
             .ToList();
@@ -37,7 +41,7 @@ public sealed class CaseManagementDbContext(DbContextOptions<CaseManagementDbCon
             await publisher.Publish(domainEvent, cancellationToken);
         }
 
-        foreach (AggregateRoot<CaseId> aggregate in aggregates)
+        foreach (IHasDomainEvents aggregate in aggregates)
         {
             aggregate.ClearDomainEvents();
         }
