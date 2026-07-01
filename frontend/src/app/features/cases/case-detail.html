@@ -74,6 +74,10 @@
         }
       </mat-tab>
 
+      <mat-tab label="Procédure">
+        <lex-procedure-panel [caseId]="id()" />
+      </mat-tab>
+
       <mat-tab label="Comptes de tiers">
         <lex-carpa-panel [caseId]="id()" [clientId]="detail()?.clientId ?? null" />
       </mat-tab>

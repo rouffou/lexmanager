@@ -13,13 +13,14 @@ import { BillingApi, DocumentsApi, TimeApi } from '../../core/api/case-extras-ap
 import { BillingDocumentSummary, CaseDetail as CaseDetailModel, CaseTimeSummary, DocumentSummary } from '../../core/models';
 import { StatusChipPipe } from '../shared/status-chip-pipe';
 import { CarpaPanel } from './carpa-panel';
+import { ProcedurePanel } from './procedure-panel';
 
 @Component({
   selector: 'lex-case-detail',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     DatePipe, DecimalPipe, RouterLink, MatCardModule, MatTabsModule, MatTableModule,
-    MatButtonModule, MatIconModule, MatProgressBarModule, StatusChipPipe, CarpaPanel,
+    MatButtonModule, MatIconModule, MatProgressBarModule, StatusChipPipe, CarpaPanel, ProcedurePanel,
   ],
   templateUrl: './case-detail.html',
   styleUrl: './case-detail.scss',

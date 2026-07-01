@@ -126,6 +126,36 @@ export interface DocumentSearchResult {
   createdOnUtc: string;
 }
 
+// ─── Procédure — arbre interactif, V11 §36 ──────────────────────────────────────
+export type ProcedureType =
+  | 'DebtRecovery'
+  | 'CivilLitigation'
+  | 'SummaryProceedings'
+  | 'LabourDispute'
+  | 'Appeal';
+export type ProcedureStageStatus = 'Pending' | 'Current' | 'Completed' | 'Skipped';
+
+export interface ProcedureStage {
+  order: number;
+  name: string;
+  phase: string;
+  status: ProcedureStageStatus;
+  plannedOnUtc?: string | null;
+  completedOnUtc?: string | null;
+}
+
+export interface ProcedurePlan {
+  id: string;
+  caseId: string;
+  type: ProcedureType;
+  referenceOnUtc: string;
+  progressPercent: number;
+  currentStageOrder?: number | null;
+  isComplete: boolean;
+  stages: ProcedureStage[];
+  createdOnUtc: string;
+}
+
 // ─── Calendar & Time ──────────────────────────────────────────────────────────
 export interface CaseTimeSummary {
   caseId: string;

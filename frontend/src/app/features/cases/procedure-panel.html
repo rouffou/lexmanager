@@ -1,0 +1,95 @@
+@if (loading()) {
+  <mat-progress-bar mode="indeterminate" />
+}
+
+@if (plan(); as p) {
+  <div class="proc">
+    <header class="proc__header">
+      <div>
+        <h3>{{ typeLabel(p.type) }}</h3>
+        <span class="proc__ref">Acte de référence : {{ p.referenceOnUtc | date: 'dd/MM/yyyy' }}</span>
+      </div>
+      <div class="proc__progress">
+        <span class="proc__pct">{{ p.progressPercent }} %</span>
+        <mat-progress-bar mode="determinate" [value]="p.progressPercent" />
+      </div>
+    </header>
+
+    @if (p.isComplete) {
+      <p class="proc__done"><mat-icon class="material-symbols-outlined">verified</mat-icon> Procédure terminée.</p>
+    }
+
+    <ol class="proc__timeline">
+      @for (stage of p.stages; track stage.order) {
+        <li class="proc__stage" [class.proc__stage--current]="stage.status === 'Current'"
+            [class.proc__stage--done]="stage.status === 'Completed'"
+            [class.proc__stage--skipped]="stage.status === 'Skipped'">
+          <span class="proc__marker">
+            @switch (stage.status) {
+              @case ('Completed') { <mat-icon class="material-symbols-outlined">check_circle</mat-icon> }
+              @case ('Current') { <mat-icon class="material-symbols-outlined">radio_button_checked</mat-icon> }
+              @case ('Skipped') { <mat-icon class="material-symbols-outlined">do_not_disturb_on</mat-icon> }
+              @default { <mat-icon class="material-symbols-outlined">radio_button_unchecked</mat-icon> }
+            }
+          </span>
+          <div class="proc__body">
+            <div class="proc__line">
+              <span class="proc__name">{{ stage.name }}</span>
+              <span class="proc__phase">{{ stage.phase }}</span>
+            </div>
+
+            @switch (stage.status) {
+              @case ('Completed') {
+                <span class="proc__meta">Franchie le {{ stage.completedOnUtc | date: 'dd/MM/yyyy' }}</span>
+              }
+              @case ('Skipped') {
+                <span class="proc__meta">Étape ignorée</span>
+              }
+              @case ('Current') {
+                <div class="proc__actions">
+                  <button mat-flat-button class="lex-cta" (click)="advance()" [disabled]="saving()">
+                    <mat-icon class="material-symbols-outlined">arrow_forward</mat-icon> Franchir
+                  </button>
+                  <button mat-stroked-button (click)="skip()" [disabled]="saving()">Ignorer</button>
+                  <label class="proc__plan">
+                    Échéance
+                    <input type="date" [value]="stage.plannedOnUtc ? (stage.plannedOnUtc | date: 'yyyy-MM-dd') : ''"
+                           (change)="schedule(stage.order, $any($event.target).value)" />
+                  </label>
+                </div>
+              }
+              @default {
+                @if (stage.plannedOnUtc) {
+                  <span class="proc__meta">Prévue le {{ stage.plannedOnUtc | date: 'dd/MM/yyyy' }}</span>
+                }
+              }
+            }
+          </div>
+        </li>
+      }
+    </ol>
+  </div>
+}
+
+@if (notFound() && !loading()) {
+  <div class="proc__empty">
+    <p>Aucun arbre de procédure pour ce dossier.</p>
+    <form [formGroup]="form" (ngSubmit)="generate()" class="proc__form">
+      <mat-form-field appearance="outline">
+        <mat-label>Type de procédure</mat-label>
+        <mat-select formControlName="procedureType">
+          @for (type of procedureTypes; track type.value) {
+            <mat-option [value]="type.value">{{ type.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Date de l'acte de référence</mat-label>
+        <input matInput type="date" formControlName="referenceOn" />
+      </mat-form-field>
+      <button mat-flat-button class="lex-cta" type="submit" [disabled]="form.invalid || saving()">
+        <mat-icon class="material-symbols-outlined">account_tree</mat-icon> Générer l'arbre
+      </button>
+    </form>
+  </div>
+}
