@@ -5,6 +5,7 @@ using LexManager.Modules.Documents.Application;
 using LexManager.Modules.Documents.Application.Abstractions;
 using LexManager.Modules.Documents.Contracts;
 using LexManager.Modules.Documents.Domain.Documents;
+using LexManager.Modules.Documents.Infrastructure.Ocr;
 using LexManager.Modules.Documents.Infrastructure.Persistence;
 using LexManager.Modules.Documents.Infrastructure.PublicApi;
 using LexManager.Modules.Documents.Infrastructure.Storage;
@@ -42,6 +43,14 @@ public sealed class DocumentsModule : IModule
             ?? Path.Combine(AppContext.BaseDirectory, "document-storage");
         services.AddSingleton<IDocumentStorage>(new FileSystemDocumentStorage(storageRoot));
         services.AddSingleton<ITemplateRenderer, SimpleTemplateRenderer>();
+
+        // OCR / full-text extraction (Tesseract FR + NL, bundled in the runtime image — SRD §7.2).
+        services.AddSingleton(new TesseractOptions
+        {
+            ExecutablePath = configuration["Ocr:TesseractPath"] ?? "tesseract",
+            Languages = configuration["Ocr:Languages"] ?? "fra+nld",
+        });
+        services.AddSingleton<IOcrTextExtractor, TesseractTextExtractor>();
 
         services.AddEndpointsFrom(typeof(ApplicationMarker).Assembly);
 

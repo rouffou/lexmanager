@@ -23,9 +23,13 @@ internal sealed class DocumentConfiguration : IEntityTypeConfiguration<Document>
         builder.Property(document => document.IsConfidential).IsRequired();
         builder.Property(document => document.CreatedOnUtc).IsRequired();
 
+        // OCR-extracted body feeding full-text search (SRD §7.2). Unbounded text column.
+        builder.Property(document => document.ExtractedText).HasColumnType("text");
+
         builder.HasIndex(document => document.CaseId);
         builder.Ignore(document => document.CurrentVersionNumber);
         builder.Ignore(document => document.CurrentVersion);
+        builder.Ignore(document => document.IsIndexed);
 
         builder.OwnsMany(document => document.Versions, version =>
         {

@@ -39,6 +39,40 @@ internal sealed class DocumentReadRepository(DocumentsDbContext context) : IDocu
         return new PagedList<DocumentSummaryResponse>(items, parameters.Page, parameters.PageSize, totalCount);
     }
 
+    public async Task<PagedList<DocumentSearchResultResponse>> SearchAsync(
+        string term,
+        Guid? caseId,
+        PaginationParameters parameters,
+        CancellationToken cancellationToken = default)
+    {
+        IQueryable<Document> query = context.Documents.AsNoTracking();
+
+        if (caseId is Guid scope)
+        {
+            query = query.Where(d => d.CaseId == scope);
+        }
+
+        // PostgreSQL full-text search over the file name + OCR-extracted body (SRD §7.2).
+        // websearch_to_tsquery accepts natural user input: bare words, "quoted phrases", -exclusions.
+        // A GIN index on the expression can be added later; volumes here don't require it yet.
+        query = query.Where(d =>
+            EF.Functions.ToTsVector("french", d.FileName + " " + (d.ExtractedText ?? string.Empty))
+                .Matches(EF.Functions.WebSearchToTsQuery("french", term)));
+
+        int totalCount = await query.CountAsync(cancellationToken);
+
+        List<Document> documents = await query
+            .OrderByDescending(d => d.CreatedOnUtc)
+            .Skip(parameters.Skip)
+            .Take(parameters.PageSize)
+            .ToListAsync(cancellationToken);
+
+        IReadOnlyList<DocumentSearchResultResponse> items =
+            documents.Select(d => MapSearchResult(d, term)).ToList();
+
+        return new PagedList<DocumentSearchResultResponse>(items, parameters.Page, parameters.PageSize, totalCount);
+    }
+
     public async Task<DocumentFileRef?> GetFileRefAsync(Guid documentId, int? versionNumber, CancellationToken cancellationToken = default)
     {
         var id = new DocumentId(documentId);
@@ -74,6 +108,14 @@ internal sealed class DocumentReadRepository(DocumentsDbContext context) : IDocu
             .OrderBy(v => v.VersionNumber)
             .Select(v => new DocumentVersionResponse(v.VersionNumber, v.SizeBytes, v.Checksum, v.UploadedOnUtc))
             .ToList(),
+        document.CreatedOnUtc);
+
+    private static DocumentSearchResultResponse MapSearchResult(Document document, string term) => new(
+        document.Id.Value,
+        document.CaseId,
+        document.FileName,
+        document.Category.ToString(),
+        SearchHighlighter.BuildSnippet(document.ExtractedText, term),
         document.CreatedOnUtc);
 
     private static DocumentSummaryResponse MapSummary(Document document) => new(

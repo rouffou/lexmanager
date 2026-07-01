@@ -36,6 +36,16 @@ public sealed class Document : AggregateRoot<DocumentId>
 
     public DateTime CreatedOnUtc { get; private set; }
 
+    /// <summary>
+    /// Plain-text rendition of the latest version's content, produced by the OCR/extraction
+    /// pipeline (Tesseract for scans/images, a direct decode for text). Feeds the full-text
+    /// search index (SRD §7.2). Null until the content has been processed.
+    /// </summary>
+    public string? ExtractedText { get; private set; }
+
+    /// <summary>True once searchable text has been extracted from the current content.</summary>
+    public bool IsIndexed => !string.IsNullOrWhiteSpace(ExtractedText);
+
     public IReadOnlyList<DocumentVersion> Versions => _versions.AsReadOnly();
     public int CurrentVersionNumber => _versions.Count == 0 ? 0 : _versions.Max(version => version.VersionNumber);
 
@@ -67,6 +77,13 @@ public sealed class Document : AggregateRoot<DocumentId>
         Raise(new DocumentVersionAddedDomainEvent(Id.Value, version.VersionNumber));
         return version;
     }
+
+    /// <summary>
+    /// Records the searchable text of the current content. Overwrites any earlier extraction —
+    /// a new version supersedes the previous body. Blank input clears the index.
+    /// </summary>
+    public void AttachExtractedText(string? text) =>
+        ExtractedText = string.IsNullOrWhiteSpace(text) ? null : text.Trim();
 
     public DocumentVersion GetVersion(int versionNumber) =>
         _versions.SingleOrDefault(version => version.VersionNumber == versionNumber)

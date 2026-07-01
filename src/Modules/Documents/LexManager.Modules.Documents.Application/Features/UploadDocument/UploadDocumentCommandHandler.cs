@@ -10,6 +10,7 @@ public sealed class UploadDocumentCommandHandler(
     IDocumentRepository documentRepository,
     ICaseApi caseApi,
     IDocumentStorage storage,
+    IOcrTextExtractor ocr,
     IDocumentUnitOfWork unitOfWork) : ICommandHandler<UploadDocumentCommand, Result<Guid>>
 {
     public async Task<Result<Guid>> Handle(UploadDocumentCommand request, CancellationToken cancellationToken = default)
@@ -36,9 +37,22 @@ public sealed class UploadDocumentCommandHandler(
             stored.Checksum,
             request.IsConfidential);
 
+        await IndexContentAsync(document, request.Content, cancellationToken);
+
         documentRepository.Add(document);
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Result.Success(document.Id.Value);
+    }
+
+    private async Task IndexContentAsync(Document document, byte[] content, CancellationToken cancellationToken)
+    {
+        if (!ocr.CanExtract(document.ContentType))
+        {
+            return;
+        }
+
+        string text = await ocr.ExtractTextAsync(content, document.ContentType, cancellationToken);
+        document.AttachExtractedText(text);
     }
 }

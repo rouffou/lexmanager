@@ -53,4 +53,39 @@ public class DocumentTests
         document.CurrentVersion.VersionNumber.Should().Be(2);
         document.CurrentVersion.StorageKey.Should().Be("2026/06/def");
     }
+
+    [Fact]
+    public void AttachExtractedText_Should_MarkIndexed_AndTrim()
+    {
+        Document document = NewDocument();
+
+        document.AttachExtractedText("  conclusions en demande  ");
+
+        document.IsIndexed.Should().BeTrue();
+        document.ExtractedText.Should().Be("conclusions en demande");
+    }
+
+    [Theory]
+    [InlineData(null)]
+    [InlineData("")]
+    [InlineData("   ")]
+    public void AttachExtractedText_Should_ClearIndex_WhenBlank(string? text)
+    {
+        Document document = NewDocument();
+        document.AttachExtractedText("something");
+
+        document.AttachExtractedText(text);
+
+        document.IsIndexed.Should().BeFalse();
+        document.ExtractedText.Should().BeNull();
+    }
+
+    [Fact]
+    public void NewDocument_Should_NotBeIndexed()
+    {
+        Document document = NewDocument();
+
+        document.IsIndexed.Should().BeFalse();
+        document.ExtractedText.Should().BeNull();
+    }
 }
