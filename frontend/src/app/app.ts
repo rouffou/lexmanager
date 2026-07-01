@@ -33,5 +33,6 @@ export class App {
     { label: 'Tableau de bord', path: '/dashboard', icon: 'dashboard' },
     { label: 'Clients', path: '/clients', icon: 'groups' },
     { label: 'Dossiers', path: '/cases', icon: 'gavel' },
+    { label: 'Recherche', path: '/search', icon: 'search' },
   ];
 }

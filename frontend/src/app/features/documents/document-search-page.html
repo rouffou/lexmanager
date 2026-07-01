@@ -1,0 +1,57 @@
+<section class="lex-page">
+  <header class="lex-page__header">
+    <h1>Recherche documentaire</h1>
+  </header>
+
+  <mat-card class="lex-card search__bar" appearance="outlined">
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <mat-form-field appearance="outline" class="search__field">
+        <mat-label>Rechercher dans les pièces (nom + contenu OCR)</mat-label>
+        <mat-icon matPrefix class="material-symbols-outlined">search</mat-icon>
+        <input matInput formControlName="term" placeholder="assignation, « contrat de bail », -brouillon" />
+        <mat-hint>Recherche plein-texte FR/NL sur le nom de fichier et le texte océrisé.</mat-hint>
+      </mat-form-field>
+      <button mat-flat-button class="lex-cta" type="submit" [disabled]="form.invalid || loading()">
+        Rechercher
+      </button>
+    </form>
+  </mat-card>
+
+  @if (loading()) {
+    <mat-progress-bar mode="indeterminate" />
+  }
+
+  @if (searched() && !loading()) {
+    <mat-card class="lex-card" appearance="outlined">
+      <table mat-table [dataSource]="results()">
+        <ng-container matColumnDef="fileName">
+          <th mat-header-cell *matHeaderCellDef>Pièce</th>
+          <td mat-cell *matCellDef="let r">
+            <span class="search__file">
+              <mat-icon class="material-symbols-outlined">description</mat-icon>
+              {{ r.fileName }}
+            </span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef>Catégorie</th>
+          <td mat-cell *matCellDef="let r">{{ r.category }}</td>
+        </ng-container>
+        <ng-container matColumnDef="highlight">
+          <th mat-header-cell *matHeaderCellDef>Extrait</th>
+          <td mat-cell *matCellDef="let r" class="search__highlight">{{ r.highlight || '—' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="createdOnUtc">
+          <th mat-header-cell *matHeaderCellDef>Ajoutée le</th>
+          <td mat-cell *matCellDef="let r">{{ r.createdOnUtc | date: 'dd/MM/yyyy' }}</td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+        <tr mat-row *matRowDef="let row; columns: columns" (click)="openCase(row)"></tr>
+      </table>
+
+      @if (results().length === 0) {
+        <p class="search__empty">Aucune pièce ne correspond à cette recherche.</p>
+      }
+    </mat-card>
+  }
+</section>

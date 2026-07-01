@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { BillingDocumentSummary, CaseTimeSummary, DocumentSummary, PagedList } from '../models';
+import { BillingDocumentSummary, CaseTimeSummary, DocumentSearchResult, DocumentSummary, PagedList } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class DocumentsApi {
@@ -12,6 +12,15 @@ export class DocumentsApi {
   byCase(caseId: string, page = 1, pageSize = 25): Observable<PagedList<DocumentSummary>> {
     const params = new HttpParams().set('caseId', caseId).set('page', page).set('pageSize', pageSize);
     return this.http.get<PagedList<DocumentSummary>>(this.base, { params });
+  }
+
+  // Full-text / OCR search across the DMS, optionally scoped to a case (SRD §7.2).
+  search(term: string, caseId?: string | null, page = 1, pageSize = 25): Observable<PagedList<DocumentSearchResult>> {
+    let params = new HttpParams().set('q', term).set('page', page).set('pageSize', pageSize);
+    if (caseId) {
+      params = params.set('caseId', caseId);
+    }
+    return this.http.get<PagedList<DocumentSearchResult>>(`${this.base}/search`, { params });
   }
 }
 

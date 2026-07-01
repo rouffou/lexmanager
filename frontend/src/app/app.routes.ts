@@ -27,5 +27,10 @@ export const routes: Routes = [
     title: 'Dossier — LexManager',
     loadComponent: () => import('./features/cases/case-detail').then((m) => m.CaseDetail),
   },
+  {
+    path: 'search',
+    title: 'Recherche documentaire — LexManager',
+    loadComponent: () => import('./features/documents/document-search-page').then((m) => m.DocumentSearchPage),
+  },
   { path: '**', redirectTo: 'dashboard' },
 ];

@@ -116,6 +116,16 @@ export interface DocumentSummary {
   createdOnUtc: string;
 }
 
+// Full-text / OCR search hit (SRD §7.2).
+export interface DocumentSearchResult {
+  id: string;
+  caseId: string;
+  fileName: string;
+  category: string;
+  highlight?: string | null;
+  createdOnUtc: string;
+}
+
 // ─── Calendar & Time ──────────────────────────────────────────────────────────
 export interface CaseTimeSummary {
   caseId: string;
